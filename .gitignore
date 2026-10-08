@@ -1,0 +1,17 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# never commit secrets or local config
+.env
+.env.*
+*.local.json
+settings.local.json
+
+# installer backups if someone points CLAUDE_HOME inside the repo
+atelier-backups/
