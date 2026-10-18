@@ -32,3 +32,10 @@ I am the master; you are the foreman; subagents are apprentices. Skill `atelier-
 - **Reversible ≠ authorized**: installs, external messages, publish/deploy, push need my explicit OK for that action.
 - **Pipeline**: vague need → `ba-flow-logic` → (UI) `ui-design-logic` → `work-order` → `builder` → `review-lenses` → done; running app wrong → `ui-ux-triage`; `security-logic` cross-cutting; `decision-log` for non-trivial tasks; `course-correct` when the plan breaks; `elicit` to pressure-test.
 - **Atelier agents** (prefer over generic types when they fit): `router`/`explorer` (haiku, low) · `builder` (sonnet, low–high) · `reviewer` (sonnet medium; opus high for thorough/security) · `architect` (opus, high).
+
+
+## Code discipline (from Karpathy guidelines)
+- Simplicity: minimum code that solves the ask; no extra features, single-use abstractions, config, or error handling for impossible cases. If it could be much shorter, rewrite.
+- Surgical: every changed line traces to the request. Match existing style; do not refactor or tidy adjacent code. Remove only the unused code my change created; mention (do not delete) pre-existing dead code.
+- Goal-driven: for bugs, reproduce first, then fix and verify; for multi-step work state a one-line check per step. Trivial edits skip this.
+- If a simpler approach exists, say so before building the complex one.
