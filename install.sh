@@ -80,7 +80,7 @@ for f in "$REPO"/agents/*.md; do
   name="$(basename "$f")"
   install_item "$f" "$CLAUDE_HOME/agents/$name" "agents/$name"; count=$((count+1))
 done
-for f in "$REPO"/hooks/*.sh "$REPO"/hooks/wire.js; do
+for f in "$REPO"/hooks/*.sh "$REPO"/hooks/*.js; do
   name="$(basename "$f")"
   install_item "$f" "$CLAUDE_HOME/hooks/$name" "hooks/$name"; count=$((count+1))
 done

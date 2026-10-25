@@ -1,0 +1,144 @@
+#!/usr/bin/env node
+// atelier: OPT-IN UserPromptSubmit hook. Reads the user's prompt, matches keywords (English and
+// Vietnamese, with and without diacritics) and prints a one-line hint naming the skills that fit.
+// Claude Code adds hook stdout to the model's context. Hints only: never blocks, always exit 0,
+// fail-open on input it cannot parse. See hooks/README.md.
+//
+// Wiring: node hooks/wire.js settings <settings.json>  (the installer does this with --wire-hooks)
+// Test:   node hooks/skill-router.js --self-test
+'use strict';
+
+// Most specific rules first: the hint is capped at 3 skills, so order is priority.
+// One rule per line, written ['skill-name', /regex/i], (skill-gap.sh greps for the quoted name).
+const RULES = [
+  ['mkn-xu-ly-task', /\bmkn\b|l[aà]m theo quy tr[iì]nh/i],
+  ['week-usage', /usage tu[aầ]n|week.?usage|token.*tu[aầ]n/i],
+  ['docx', /\b(docx|word doc\w*)\b/i],
+  ['pdf', /\bpdf\b/i],
+  ['xlsx', /\b(xlsx|excel|spreadsheet)\b/i],
+  ['pptx', /\b(pptx|powerpoint|slides?|deck)\b/i],
+  ['ban-tin-tuan', /b[aả]n tin/i],
+  ['quet-zalo-ban-tin', /\bzalo\b/i],
+  ['dataviz', /\b(chart|graph|plot)\b|bi[eể]u [dđ][oồ]/i],
+  ['deep-research', /nghi[eê]n c[uứ]u|\b(deep research|research report)\b/i],
+  ['security-logic', /b[aả]o m[aậ]t|l[oỗ] h[oổ]ng|\b(security|secrets?|cve|owasp|injection)\b/i],
+  ['ui-ux-triage', /b[aấ]m kh[oô]ng [dđ][uư][oơợ]c|kh[oô]ng b[aấ]m [dđ][uư][oơợ]c|n[uú]t .*(l[oỗ]i|kh[oô]ng)|kh[oô]ng [aă]n|sai s[oố]|l[eệ]ch|\bnot working\b|doesn.t work|kh[oô]ng ho[aạ]t [dđ][oộ]ng|sai d[uữ] li[eệ]u|screenshot/i],
+  ['ui-design-logic', /\b(ui|ux|redesign|dashboard|landing|layout|make it pretty)\b|giao di[eệ]n|m[aà]n h[iì]nh|m[aà]n n[aà]y (x[aấ]u|r[oố]i)|th[eê]m m[aà]n|[dđ][eẹ]p h[oơ]n|nh[iì]n nh[uư] ai/i],
+  ['diagnosing-bugs', /\b(bug|broken|crash(es|ed)?|exception|stack ?trace|regression|root cause|memory leak|race condition|flaky|slow)\b|nguy[eê]n nh[aâ]n|ch[aậ]m|treo/i],
+  ['tdd', /\b(tdd|test.first|red.green|failing test)\b|vi[eế]t test tr[uư][oớ]c/i],
+  ['pr', /\bpr\b.*\b(body|description|title|write|draft)\b|\b(write|draft|vi[eế]t|so[aạ]n)\b.*\b(pr|pull request)\b|m[oô] t[aả] pr/i],
+  ['handoff', /\bhandoff\b|b[aà]n giao|new session|session m[oớ]i|continue in a new/i],
+  ['course-correct', /[dđ][oổ]i h[uư][oớ]ng|k[eé]o kh[oô]ng [oổ]n|\b(pivot|course.correct)\b|plan (kh[oô]ng|no longer)/i],
+  ['elicit', /ph[aả]n bi[eệ]n|soi k[yỹ]|\b(pre-mortem|red team|what could go wrong)\b/i],
+  ['decision-log', /ti[eế]p t[uụ]c task|v[iì] sao quy[eế]t [dđ][iị]nh|why did we decide/i],
+  ['atelier-core', /docs? l[eệ]ch|\b(hallucinat\w*|onboard\w*)\b|b[iị]a t[eê]n|context (qu[aá] )?d[aà]i/i],
+  ['review-lenses', /\b(review|code review)\b|so[aá]t/i],
+  ['ba-flow-logic', /nghi[eệ]p v[uụ]|y[eê]u c[aầ]u|\b(requirements?|user flow)\b|t[ií]nh n[aă]ng m[oớ]i|th[eê]m t[ií]nh n[aă]ng|\bnew feature\b/i],
+  ['work-order', /l[aà]m [dđ]i|\b(go ahead|build it)\b|tri[eể]n khai/i],
+];
+
+function route(prompt) { // returns matching skill names in priority order, deduped
+  return [...new Set(RULES.filter(([, re]) => re.test(prompt)).map(([name]) => name))];
+}
+
+function hint(prompt) { // returns the hint line, or '' when nothing matches
+  const r = route(prompt).slice(0, 3).join(', ');
+  return r ? `[skill-router] Request may match installed skills: ${r}. Pick the best fit and invoke it with the Skill tool before acting (say which in one line). Skip only if the request is trivial.` : '';
+}
+
+function handle(input) { // raw stdin text -> output line ('' = print nothing); never throws
+  try {
+    const p = JSON.parse(input).prompt;
+    return typeof p === 'string' && p ? hint(p) : '';
+  } catch (e) {
+    return '';
+  }
+}
+
+function selfTest() {
+  let rc = 0;
+  const t = (prompt, want) => { // want = skill, or '' for no hint
+    const out = handle(JSON.stringify({ hook_event_name: 'UserPromptSubmit', prompt }));
+    if (!want) {
+      if (!out) console.log(`PASS: none  - ${prompt}`);
+      else { console.log(`FAIL: '${prompt}' should give no hint, got: ${out}`); rc = 1; }
+    } else if (out.includes(want)) console.log(`PASS: ${want} - ${prompt}`);
+    else { console.log(`FAIL: '${prompt}' should hint ${want}, got: ${out}`); rc = 1; }
+  };
+  t('the UI/UX needs some improvement', 'ui-design-logic');
+  t('màn này xấu quá', 'ui-design-logic');
+  t('nút lưu không ăn', 'ui-ux-triage');
+  t('phân tích nghiệp vụ cho tính năng mới', 'ba-flow-logic');
+  t('làm đi', 'work-order');
+  t('review the diff', 'review-lenses');
+  t('check security of the login', 'security-logic');
+  t('soi kỹ lại plan này', 'elicit');
+  t('export to an excel file', 'xlsx');
+  t('task mkn trạng thái sai', 'mkn-xu-ly-task');
+  t('this function crashes, find the root cause', 'diagnosing-bugs');
+  t('use tdd for the parser', 'tdd');
+  t('write the PR description', 'pr');
+  t('make a handoff for the next session', 'handoff');
+  t('what time is it', '');
+  t('rename variable foo to bar', '');
+  t('giao diện app này cần cải thiện, nhớ cả mobile', 'ui-design-logic');
+  t('man nay xau qua, sua lai di', 'ui-design-logic');
+  t('màn hình đăng nhập nhìn như AI làm', 'ui-design-logic');
+  t('thêm màn hình thống kê', 'ui-design-logic');
+  t('nút lưu bấm không được', 'ui-ux-triage');
+  t('số liệu hiển thị sai so với dữ liệu', 'ui-ux-triage');
+  t('bảng bị lệch trên điện thoại', 'ui-ux-triage');
+  t('hàm này bị lỗi, tìm nguyên nhân giúp tôi', 'diagnosing-bugs');
+  t('app chạy chậm quá', 'diagnosing-bugs');
+  t('server bị crash lúc nửa đêm', 'diagnosing-bugs');
+  t('viết mô tả PR cho thay đổi này', 'pr');
+  t('soạn PR description giúp tôi', 'pr');
+  t('kiểm tra bảo mật phần đăng nhập', 'security-logic');
+  t('có lỗ hổng nào không', 'security-logic');
+  t('soát lại đoạn code vừa sửa', 'review-lenses');
+  t('review giúp tôi cái diff này', 'review-lenses');
+  t('tôi muốn thêm tính năng báo cáo tuần', 'ba-flow-logic');
+  t('phân tích nghiệp vụ quản lý kho', 'ba-flow-logic');
+  t('yêu cầu của khách chưa rõ lắm', 'ba-flow-logic');
+  t('triển khai luôn nhé', 'work-order');
+  t('bàn giao sang session mới', 'handoff');
+  t('viết test trước rồi mới code', 'tdd');
+  t('tóm tắt usage tuần này', 'week-usage');
+  t('phản biện kế hoạch này giúp tôi', 'elicit');
+  t('soi kỹ lại thiết kế này', 'elicit');
+  t('đổi hướng, cách này không ổn', 'course-correct');
+  t('tiếp tục task hôm qua', 'decision-log');
+  t('xuất ra file excel', 'xlsx');
+  t('làm bản tin tuần này', 'ban-tin-tuan');
+  t('quét zalo tuần này', 'quet-zalo-ban-tin');
+  t('làm theo quy trình mkn', 'mkn-xu-ly-task');
+  t('hôm nay trời đẹp không', '');
+  t('đổi tên biến a thành b', '');
+
+  const long = 'spec flow review security crash chart pdf slow implement ui layout';
+  const out = handle(JSON.stringify({ prompt: long }));
+  const m = /skills: ([^.]*)/.exec(out);
+  const n = m ? m[1].split(',').length : 0;
+  if (n >= 1 && n <= 3) console.log(`PASS: hint capped at 3 (${n})`);
+  else { console.log(`FAIL: hint not capped (${n})`); rc = 1; }
+
+  if (handle('not json') === '' && handle('') === '' && handle('{"prompt":""}') === '' && handle('{"prompt":5}') === '') console.log('PASS: garbage input gives no hint');
+  else { console.log('FAIL: garbage input'); rc = 1; }
+
+  // one real end-to-end run: spawn this script with JSON on stdin, expect the hint line and exit 0
+  const r = require('child_process').spawnSync(process.execPath, [__filename], { input: '{"prompt":"nút lưu bấm không được"}', encoding: 'utf8' });
+  if (r.status === 0 && r.stdout.startsWith('[skill-router] Request may match installed skills: ui-ux-triage')) console.log('PASS: end-to-end stdin -> hint, exit 0');
+  else { console.log(`FAIL: end-to-end (status ${r.status}): ${r.stdout}${r.stderr}`); rc = 1; }
+
+  console.log(rc === 0 ? 'skill-router self-test: ALL PASS' : 'skill-router self-test: FAIL');
+  process.exit(rc);
+}
+
+if (process.argv[2] === '--self-test') selfTest();
+else {
+  let input = '';
+  try { input = require('fs').readFileSync(0, 'utf8'); } catch (e) { /* fail-open */ }
+  const line = handle(input);
+  if (line) process.stdout.write(line + '\n');
+  process.exit(0);
+}

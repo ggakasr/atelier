@@ -156,7 +156,7 @@ To start a project, copy `project-template/` into the repo root, fill the `{{...
 
 ## Hooks and extras
 
-- `hooks/skill-router.sh`: a UserPromptSubmit hook that spots what a request is about and tells the
+- `hooks/skill-router.js`: a UserPromptSubmit hook that spots what a request is about and tells the
   model which skill to invoke (e.g. "UI/UX needs improvement" -> `ui-design-logic`). The routing
   table in `global/CLAUDE.md` does the same from the model's side.
 - `hooks/git-guard.sh`: a PreToolUse hook that blocks `git reset`, `git stash`, `git restore`

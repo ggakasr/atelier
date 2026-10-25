@@ -41,7 +41,12 @@ function wireSettings() {
     if (matcher) group.matcher = matcher;
     list.push(group);
   };
-  add('UserPromptSubmit', null, 'sh ~/.claude/hooks/skill-router.sh');
+  // older installs registered the sh version of skill-router: swap that command for the node one in place
+  const migrate = (event, oldKey, command) => {
+    for (const g of s.hooks[event] || []) for (const h of g.hooks || []) if ((h.command || '').includes(oldKey)) h.command = command;
+  };
+  migrate('UserPromptSubmit', 'skill-router.sh', 'node ~/.claude/hooks/skill-router.js');
+  add('UserPromptSubmit', null, 'node ~/.claude/hooks/skill-router.js');
   add('SessionStart', null, 'sh ~/.claude/hooks/skill-gap.sh');
   add('PostToolUse', null, 'sh ~/.claude/hooks/foreman-nudge.sh');
   add('PreToolUse', 'Bash', 'sh ~/.claude/hooks/git-guard.sh');

@@ -4,12 +4,14 @@ The installer copies these into `~/.claude/hooks/`. They only run once registere
 `--wire-hooks` (`-WireHooks` on Windows) to the installer, which merges them into
 `~/.claude/settings.json` (backup made, safe to repeat). Or wire them yourself as shown below.
 
-## skill-router.sh (UserPromptSubmit)
+## skill-router.js (UserPromptSubmit)
 
 Matches keywords in your prompt (English and Vietnamese) and adds a `[skill-router]` line to the
 model's context naming the skills that fit, so e.g. "the UI/UX needs improvement" points at
-`ui-design-logic`. It only suggests, never blocks. Test: `sh hooks/skill-router.sh --self-test`.
-To add a keyword or skill, edit the `route()` list in the script.
+`ui-design-logic`. It only suggests, never blocks. It is a node script (needs only node, starts in a fraction of a second). Test:
+`node hooks/skill-router.js --self-test`. To add a keyword or skill, edit the `RULES` list in the
+script (one `['skill', /regex/i],` per line, most specific first; the hint is capped at 3 skills).
+Re-running the installer with `--wire-hooks` swaps an older `skill-router.sh` registration for this one.
 
 ## foreman-nudge.sh (PostToolUse)
 
@@ -21,7 +23,7 @@ every tool call, so it adds a small delay per call. Test: `sh hooks/foreman-nudg
 ## skill-gap.sh (SessionStart)
 
 Lists skills installed in `~/.claude/skills` that have no row in the `CLAUDE.md` routing table and
-no keyword in `skill-router.sh`, so a skill you just added gets wired in. Silent when nothing is
+no keyword in `skill-router.js`, so a skill you just added gets wired in. Silent when nothing is
 missing. The model offers once to add the row and keywords in the repo, then you reinstall.
 
 ## git-guard.sh (PreToolUse, Bash)

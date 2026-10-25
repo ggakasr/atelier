@@ -46,7 +46,7 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 
 ## Skill upkeep
 - **Capture**: if I do the same multi-step procedure for the 2nd or 3rd time, or a clearly systematic method emerges while solving a problem, say so in one line at the end of the turn and offer to turn it into a skill with `skill-creator`. Create nothing until I say yes. Not for one-offs; never repeat an offer I declined.
-- **Gap**: a `[skill-gap]` line at session start means installed skills have no row in the table above. Offer once to add the rows (`global/CLAUDE.md`) and keywords (`hooks/skill-router.sh`) in the atelier repo, then reinstall. Wait for my yes.
+- **Gap**: a `[skill-gap]` line at session start means installed skills have no row in the table above. Offer once to add the rows (`global/CLAUDE.md`) and keywords (`hooks/skill-router.js`) in the atelier repo, then reinstall. Wait for my yes.
 <!-- atelier:end -->
 
 ## Code discipline (from Karpathy guidelines)
