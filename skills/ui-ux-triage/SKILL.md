@@ -6,6 +6,7 @@ description: "Team-agent triage + fix loop — pha VẬN HÀNH của pipeline BA
 # UI/UX Triage — Team Agent (composable, repo-agnostic)
 
 > **Atelier notes** (English, added by atelier)
+> - **Foreman rule (hard).** The Lead only coordinates and talks to the user. All browser, screenshot, reproduction and edit work runs in subagents that return short reports.
 > - **Who runs it.** The main session is the Lead. Tester and Observer: `general-purpose` (sonnet, medium), or `explorer` (haiku, low) for read-only reproduction from logs and code. Fixer: `builder` (sonnet, medium). Advisor, for ambiguous cases: `architect` (opus, high). Only RED reaches the user.
 > - **Mapping to atelier.** The Vietnamese text below is upstream ai-simple, kept as written. Mentions of "ai-simple", `ai-simple-product-dev`, `#NN` / `NTNN` / "nguyên tắc NN" and `methodology/NN` mean the `atelier-core` skill and its `methodology/` folder. Not shipped in atelier (treat as optional upstream tooling): the Node CLI (`npx ai-simple ...`, `ai-simple init/parallel/doctor`), the large pre-commit hook template (items `1d`/`1e`/`1f`), `evals/`, and principles 09, 10 and 13.
 > - **Related atelier skills.** Hand a finished spec to `work-order`; review diffs with `review-lenses`; log decisions in `decision-log`; when reality breaks the plan use `course-correct`; pressure-test any artifact with `elicit`.

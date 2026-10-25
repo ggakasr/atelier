@@ -33,6 +33,12 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 | MKN v3 task/lỗi kèm ảnh, "làm theo quy trình" | `mkn-xu-ly-task` |
 | Claude usage this week, token/tiền tuần này | `week-usage` |
 
+## Foreman rule (main session = manager, not worker)
+- The main session talks to me, routes, decides and relays short reports. It does at most 2 quick read-only calls itself.
+- Everything else goes to an apprentice (subagent) that returns a summary: surveys and wide reads, browser/screenshot/measure work, edits, tests, reviews. Independent pieces run in parallel; pieces that could touch the same files get their own worktree.
+- A `[foreman]` line from the hook means the main session has been doing the work itself. Stop, delegate the next chunk, say so in one line.
+- **Session hygiene**: when the topic changes, the work becomes its own branch or PR, or the context is heavy or has been summarised, say so in one line and offer a fresh session. Keep decisions in the task's decision-log and work orders so a fresh session restarts cheaply.
+
 ## Skill upkeep
 - **Capture**: if I do the same multi-step procedure for the 2nd or 3rd time, or a clearly systematic method emerges while solving a problem, say so in one line at the end of the turn and offer to turn it into a skill with `skill-creator`. Create nothing until I say yes. Not for one-offs; never repeat an offer I declined.
 - **Gap**: a `[skill-gap]` line at session start means installed skills have no row in the table above. Offer once to add the rows (`global/CLAUDE.md`) and keywords (`hooks/skill-router.sh`) in the atelier repo, then reinstall. Wait for my yes.

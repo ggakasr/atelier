@@ -43,6 +43,7 @@ function wireSettings() {
   };
   add('UserPromptSubmit', null, 'sh ~/.claude/hooks/skill-router.sh');
   add('SessionStart', null, 'sh ~/.claude/hooks/skill-gap.sh');
+  add('PostToolUse', null, 'sh ~/.claude/hooks/foreman-nudge.sh');
   add('PreToolUse', 'Bash', 'sh ~/.claude/hooks/git-guard.sh');
   backup(target);
   fs.writeFileSync(target, JSON.stringify(s, null, 2) + '\n');

@@ -11,6 +11,13 @@ model's context naming the skills that fit, so e.g. "the UI/UX needs improvement
 `ui-design-logic`. It only suggests, never blocks. Test: `sh hooks/skill-router.sh --self-test`.
 To add a keyword or skill, edit the `route()` list in the script.
 
+## foreman-nudge.sh (PostToolUse)
+
+Counts the main session's own tool calls (subagent calls, recognised by `agent_id`, are ignored).
+After 8 in a row with no subagent call it adds a `[foreman]` reminder: delegate the next chunk.
+A subagent call resets the count. Change the threshold with `ATELIER_FOREMAN_N`. It runs after
+every tool call, so it adds a small delay per call. Test: `sh hooks/foreman-nudge.sh --self-test`.
+
 ## skill-gap.sh (SessionStart)
 
 Lists skills installed in `~/.claude/skills` that have no row in the `CLAUDE.md` routing table and

@@ -6,6 +6,7 @@ description: "Thiết kế UI/UX top-down hướng-người-dùng: sinh design-s
 # UI Design Logic
 
 > **Atelier notes** (English, added by atelier)
+> - **Foreman rule (hard).** The main session never surveys, screenshots, measures in the browser, edits or runs QA itself. Each step below goes to an apprentice that returns a short report; the main session only talks to the user, routes and decides.
 > - **Who runs it.** New screens and LANE2/LANE3 changes: `architect` (opus, high) writes or updates the design-spec, then `builder` (sonnet, medium) builds from it. LANE1 small tweaks: `builder` (sonnet, low to medium) directly. Screenshot QA: `reviewer` (sonnet, medium).
 > - **Mapping to atelier.** The Vietnamese text below is upstream ai-simple, kept as written. Mentions of "ai-simple", `ai-simple-product-dev`, `#NN` / `NTNN` / "nguyên tắc NN" and `methodology/NN` mean the `atelier-core` skill and its `methodology/` folder. Not shipped in atelier (treat as optional upstream tooling): the Node CLI (`npx ai-simple ...`, `ai-simple init/parallel/doctor`), the large pre-commit hook template (items `1d`/`1e`/`1f`), `evals/`, and principles 09, 10 and 13.
 > - **Related atelier skills.** Hand a finished spec to `work-order`; review diffs with `review-lenses`; log decisions in `decision-log`; when reality breaks the plan use `course-correct`; pressure-test any artifact with `elicit`.
