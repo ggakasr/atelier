@@ -11,6 +11,12 @@ model's context naming the skills that fit, so e.g. "the UI/UX needs improvement
 `ui-design-logic`. It only suggests, never blocks. Test: `sh hooks/skill-router.sh --self-test`.
 To add a keyword or skill, edit the `route()` list in the script.
 
+## skill-gap.sh (SessionStart)
+
+Lists skills installed in `~/.claude/skills` that have no row in the `CLAUDE.md` routing table and
+no keyword in `skill-router.sh`, so a skill you just added gets wired in. Silent when nothing is
+missing. The model offers once to add the row and keywords in the repo, then you reinstall.
+
 ## git-guard.sh (PreToolUse, Bash)
 
 This hook blocks the commands that destroy uncommitted user work: `git reset`, `git stash`,

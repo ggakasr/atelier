@@ -31,6 +31,8 @@ route() { # $1 = prompt; prints skill names, one per line
   m '\b(chart|graph|plot|bi[eể]u [dđ][oồ])\b' && echo dataviz
   m 'b[aả]n tin' && echo ban-tin-tuan
   m '\bzalo\b' && echo quet-zalo-ban-tin
+  m '\bmkn\b|l[aà]m theo quy tr[iì]nh' && echo mkn-xu-ly-task
+  m 'usage tu[aầ]n|week.?usage|token.*tu[aầ]n' && echo week-usage
 }
 
 emit() { # $1 = prompt
@@ -66,6 +68,7 @@ t 'review the diff' review-lenses
 t 'check security of the login' security-logic
 t 'soi kỹ lại plan này' elicit
 t 'export to an excel file' xlsx
+t 'task mkn trạng thái sai' mkn-xu-ly-task
 t 'what time is it' ""
 t 'rename variable foo to bar' ""
 printf 'not json' | sh "$SELF" >/dev/null; [ $? -eq 0 ] && echo "PASS: garbage stdin allowed" || { echo "FAIL: garbage stdin"; RC=1; }
