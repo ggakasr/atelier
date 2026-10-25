@@ -1,6 +1,6 @@
 ---
 name: ba-flow-logic
-description: "Phân tích nghiệp vụ hướng-người-dùng, pha đầu pipeline BA→design→build→triage: biến nhu cầu mơ hồ thành ba-spec qua trục USER → nghiệp vụ → cross-user handoff → flow Input/Output → tối ưu flow bằng team-agent → acceptance criteria làm oracle hành vi. Kích hoạt: làm BA, phân tích nghiệp vụ, viết yêu cầu/spec, vẽ hoặc tối ưu flow, tính năng mới còn mơ hồ; HOẶC nhận handoff ngược từ ui-ux-triage (code khớp spec mà hành vi vẫn sai), từ ui-design-logic (đang design phát hiện spec thiếu hành vi), từ security-logic (AC cho phép hành vi không an toàn). KHÔNG: thiết kế UI (→ui-design-logic), defect app đang chạy (→ui-ux-triage), đổi nhỏ đã rõ (→build thẳng). Dừng ở WHAT+WHY, không đụng UI/screen/code."
+description: "Turn a vague need into a ba-spec (user, nghiệp vụ, handoff, Input/Output flow, acceptance criteria); stops at WHAT+WHY, no UI or code. Use when asked to làm BA, phân tích nghiệp vụ, write requirements/spec, optimise a flow, or for a fuzzy new feature; also on handoff back from ui-ux-triage (code matches spec, behaviour wrong), ui-design-logic or security-logic. Not for UI design (ui-design-logic), running-app defects (ui-ux-triage), small clear changes."
 ---
 
 # BA Flow Logic — phân tích nghiệp vụ hướng người dùng (team-agent)

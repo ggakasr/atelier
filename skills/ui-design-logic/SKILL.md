@@ -1,6 +1,6 @@
 ---
 name: ui-design-logic
-description: "Thiết kế UI/UX top-down hướng-người-dùng: sinh design-spec (thang người dùng, screen map, ma trận trạng thái, budget IA/density, bảng chọn component) rồi build UI, kết bằng QA screenshot; luật anti-AI-slop. Kích hoạt khi thiết kế hoặc build BẤT KỲ UI web/app — dashboard, landing, admin, form, màn mobile — kể cả khi user chỉ nói 'make it pretty', 'build a page', 'thêm màn hình', 'làm cho đẹp', 'màn này xấu/rối/nhìn như AI', 'redesign giữ nguyên chức năng'. KHÔNG: defect app đang chạy — nút lỗi, sai dữ liệu, sai role (→ui-ux-triage); nhu cầu nghiệp vụ mới còn mơ hồ (→ba-flow-logic); đổi text nhỏ không đổi layout (→build thẳng). Màn lộ data nhạy cảm hoặc chạm auth/payment → security-logic review trước khi chốt."
+description: "Top-down user-centred UI/UX design: produces a design-spec (screen map, state matrix, IA/density budget, components), builds the UI, ends with screenshot QA. Use when designing or building any web/app UI, e.g. 'make it pretty', 'thêm màn hình', 'màn này xấu/rối', redesign keeping function. Not for running-app defects (ui-ux-triage), fuzzy business needs (ba-flow-logic), tiny text edits; screens with sensitive data or auth/payment need security-logic first."
 ---
 
 # UI Design Logic

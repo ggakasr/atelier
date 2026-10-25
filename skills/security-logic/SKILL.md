@@ -1,6 +1,6 @@
 ---
 name: security-logic
-description: "Security review hướng-khung-chuẩn, cắt ngang mọi pha: sinh security-review khai phủ sóng, mỗi finding gắn tier + gate + mã OWASP LLM và web Top-10. Kích hoạt: review bảo mật, có lỗ hổng không, security check, kiểm secret, doc có bị inject không, merge code chạm auth/payment/crypto/migration/permission, dependency có CVE; hoặc handoff từ ui-ux-triage/ui-design-logic khi nghi lộ data/bypass quyền. KHÔNG: pentest/DAST production (ngoài scope, chỉ sinh runbook), defect chức năng (→ui-ux-triage). Chỉ khai phủ A/B, KHÔNG phủ C."
+description: "Security review against OWASP web and LLM Top-10, cross-cutting any phase: each finding gets a tier, gate and OWASP code. Use for review bảo mật, vulnerability or secrets check, prompt-injection in docs, merging code touching auth/payment/crypto/migration/permission, dependency CVEs, or handoff from ui-ux-triage/ui-design-logic on suspected data leak or permission bypass. Not for production pentest/DAST (runbook only) or functional defects (ui-ux-triage)."
 ---
 
 # Security Logic — rà soát bảo mật có khai báo phủ sóng (không dấu tick giả)

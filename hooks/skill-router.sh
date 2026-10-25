@@ -13,30 +13,35 @@ export LC_ALL
 route() { # $1 = prompt; prints skill names, one per line
   p="$1"
   m() { printf '%s' "$p" | grep -qiE "$1"; }
-  m '\b(ui|ux|redesign|dashboard|landing|layout|make it pretty)\b|giao di[eệ]n|m[aà]n h[iì]nh|m[aà]n n[aà]y (x[aấ]u|r[oố]i)|th[eê]m m[aà]n|[dđ][eẹ]p h[oơ]n|nh[iì]n nh[uư] ai' && echo ui-design-logic
-  m 'kh[oô]ng [aă]n|sai s[oố]|l[eệ]ch|\b(bug|broken|not working|doesn.t work)\b|kh[oô]ng ho[aạ]t [dđ][oộ]ng|sai d[uữ] li[eệ]u|screenshot' && echo ui-ux-triage
-  m 'nghi[eệ]p v[uụ]|y[eê]u c[aầ]u|\b(requirements?|spec|user flow|flow)\b|t[ií]nh n[aă]ng m[oớ]i|ph[aâ]n t[ií]ch' && echo ba-flow-logic
-  m 'l[aà]m [dđ]i|\b(go ahead|build it|implement)\b|tri[eể]n khai' && echo work-order
-  m '\b(review|pull request)\b|so[aá]t' && echo review-lenses
-  m 'b[aả]o m[aậ]t|l[oỗ] h[oổ]ng|\b(security|secrets?|cve|owasp|injection|auth)\b' && echo security-logic
-  m '[dđ][oổ]i h[uư][oớ]ng|k[eé]o kh[oô]ng [oổ]n|\b(pivot|course.correct)\b|plan (kh[oô]ng|no longer)' && echo course-correct
-  m 'ph[aả]n bi[eệ]n|soi k[yỹ]|\b(pre-mortem|red team|what could go wrong)\b' && echo elicit
-  m 'ti[eế]p t[uụ]c task|v[iì] sao quy[eế]t [dđ][iị]nh|why did we decide' && echo decision-log
-  m 'docs? l[eệ]ch|\b(hallucinat\w*|onboard\w*)\b|b[iị]a t[eê]n|context (qu[aá] )?d[aà]i' && echo atelier-core
+  # Most specific rules first: the hint is capped at 3 skills, so order is priority.
+  m '\bmkn\b|l[aà]m theo quy tr[iì]nh' && echo mkn-xu-ly-task
+  m 'usage tu[aầ]n|week.?usage|token.*tu[aầ]n' && echo week-usage
   m '\b(docx|word doc\w*)\b' && echo docx
   m '\bpdf\b' && echo pdf
   m '\b(xlsx|excel|spreadsheet)\b' && echo xlsx
   m '\b(pptx|powerpoint|slides?|deck)\b' && echo pptx
-  m 'nghi[eê]n c[uứ]u|\b(deep research|research report)\b' && echo deep-research
-  m '\b(chart|graph|plot|bi[eể]u [dđ][oồ])\b' && echo dataviz
   m 'b[aả]n tin' && echo ban-tin-tuan
   m '\bzalo\b' && echo quet-zalo-ban-tin
-  m '\bmkn\b|l[aà]m theo quy tr[iì]nh' && echo mkn-xu-ly-task
-  m 'usage tu[aầ]n|week.?usage|token.*tu[aầ]n' && echo week-usage
+  m '\b(chart|graph|plot)\b|bi[eể]u [dđ][oồ]' && echo dataviz
+  m 'nghi[eê]n c[uứ]u|\b(deep research|research report)\b' && echo deep-research
+  m 'b[aả]o m[aậ]t|l[oỗ] h[oổ]ng|\b(security|secrets?|cve|owasp|injection)\b' && echo security-logic
+  m 'kh[oô]ng [aă]n|sai s[oố]|l[eệ]ch|\bnot working\b|doesn.t work|kh[oô]ng ho[aạ]t [dđ][oộ]ng|sai d[uữ] li[eệ]u|screenshot' && echo ui-ux-triage
+  m '\b(ui|ux|redesign|dashboard|landing|layout|make it pretty)\b|giao di[eệ]n|m[aà]n h[iì]nh|m[aà]n n[aà]y (x[aấ]u|r[oố]i)|th[eê]m m[aà]n|[dđ][eẹ]p h[oơ]n|nh[iì]n nh[uư] ai' && echo ui-design-logic
+  m '\b(bug|broken|crash(es|ed)?|exception|stack ?trace|regression|root cause|memory leak|race condition|flaky|slow)\b|nguy[eê]n nh[aâ]n|ch[aậ]m|treo' && echo diagnosing-bugs
+  m '\b(tdd|test.first|red.green|failing test)\b|vi[eế]t test tr[uư][oớ]c' && echo tdd
+  m '\bpr\b.*\b(body|description|title|write|draft)\b|\b(write|draft|vi[eế]t|so[aạ]n)\b.*\b(pr|pull request)\b|m[oô] t[aả] pr' && echo pr
+  m '\bhandoff\b|b[aà]n giao|new session|session m[oớ]i|continue in a new' && echo handoff
+  m '[dđ][oổ]i h[uư][oớ]ng|k[eé]o kh[oô]ng [oổ]n|\b(pivot|course.correct)\b|plan (kh[oô]ng|no longer)' && echo course-correct
+  m 'ph[aả]n bi[eệ]n|soi k[yỹ]|\b(pre-mortem|red team|what could go wrong)\b' && echo elicit
+  m 'ti[eế]p t[uụ]c task|v[iì] sao quy[eế]t [dđ][iị]nh|why did we decide' && echo decision-log
+  m 'docs? l[eệ]ch|\b(hallucinat\w*|onboard\w*)\b|b[iị]a t[eê]n|context (qu[aá] )?d[aà]i' && echo atelier-core
+  m '\b(review|code review)\b|so[aá]t' && echo review-lenses
+  m 'nghi[eệ]p v[uụ]|y[eê]u c[aầ]u|\b(requirements?|user flow)\b|t[ií]nh n[aă]ng m[oớ]i' && echo ba-flow-logic
+  m 'l[aà]m [dđ]i|\b(go ahead|build it)\b|tri[eể]n khai' && echo work-order
 }
 
 emit() { # $1 = prompt
-  r=$(route "$1" | awk '!s[$0]++' | paste -sd, - | sed 's/,/, /g')
+  r=$(route "$1" | awk '!s[$0]++' | head -3 | paste -sd, - | sed 's/,/, /g')
   [ -n "$r" ] && echo "[skill-router] Request may match installed skills: $r. Pick the best fit and invoke it with the Skill tool before acting (say which in one line). Skip only if the request is trivial."
   return 0
 }
@@ -69,8 +74,17 @@ t 'check security of the login' security-logic
 t 'soi kỹ lại plan này' elicit
 t 'export to an excel file' xlsx
 t 'task mkn trạng thái sai' mkn-xu-ly-task
+t 'this function crashes, find the root cause' diagnosing-bugs
+t 'use tdd for the parser' tdd
+t 'write the PR description' pr
+t 'make a handoff for the next session' handoff
 t 'what time is it' ""
 t 'rename variable foo to bar' ""
+long='spec flow review security crash chart pdf slow implement ui layout'
+out=$(printf '{"prompt":"%s"}' "$long" | sh "$SELF")
+n=$(printf '%s' "$out" | grep -oE 'skills: [^.]*' | tr ',' '
+' | grep -c .)
+[ "$n" -ge 1 ] && [ "$n" -le 3 ] && echo "PASS: hint capped at 3 ($n)" || { echo "FAIL: hint not capped ($n)"; RC=1; }
 printf 'not json' | sh "$SELF" >/dev/null; [ $? -eq 0 ] && echo "PASS: garbage stdin allowed" || { echo "FAIL: garbage stdin"; RC=1; }
 [ "$RC" -eq 0 ] && echo "skill-router self-test: ALL PASS" || echo "skill-router self-test: FAIL"
 exit $RC

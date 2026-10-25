@@ -18,6 +18,10 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 | UI/UX needs improving, màn này xấu/rối, redesign, make it pretty, thêm màn hình | `ui-design-logic` |
 | Running app is wrong: nút không ăn, sai số, lệch, screenshot + complaint | `ui-ux-triage` |
 | Vague feature, requirements, nghiệp vụ, flow, spec | `ba-flow-logic` |
+| Bug, crash, regression, slow, "find the root cause" | `diagnosing-bugs` |
+| Build/fix test-first, TDD, red-green | `tdd` |
+| Write or improve a PR description | `pr` |
+| Hand over to a fresh session or agent, bàn giao | `handoff` |
 | WHAT is agreed: làm đi, build it, implement | `work-order` |
 | Review / soát diff, PR, spec | `review-lenses` |
 | Security, secrets, auth, CVE, prompt injection | `security-logic` |

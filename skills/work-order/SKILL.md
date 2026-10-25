@@ -1,6 +1,6 @@
 ---
 name: work-order
-description: "Turn an agreed intent (a request, a ba-spec, a design-spec, a bug diagnosis) into a self-contained work order that a cold builder subagent can execute, then pick the build route (oneshot or full) and the review depth (none, quick or thorough). Use when the user says build it / implement / go ahead / làm đi after the WHAT is clear, when handing work to a subagent, or when a change is bigger than a one-file edit. Not for vague needs (ba-flow-logic first), UI design decisions (ui-design-logic first), or questions."
+description: "Turn an agreed intent (request, ba-spec, design-spec, bug diagnosis) into a self-contained work order a cold builder subagent can execute, and pick build route (oneshot or full) and review depth (none, quick, thorough). Use when the user says build it / implement / go ahead / làm đi after the WHAT is clear, when handing work to a subagent, or when a change exceeds a one-file edit. Not for vague needs (ba-flow-logic first), UI design decisions (ui-design-logic first) or questions."
 ---
 
 # Work Order

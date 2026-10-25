@@ -1,6 +1,6 @@
 ---
 name: course-correct
-description: "Handle a significant change discovered mid-work — a technical limit, a new requirement, a misunderstood requirement, a pivot, or an approach that failed — by assessing impact across work orders, ba-spec, design-spec, ADRs and tests, weighing paths (adjust, roll back, cut scope), and producing a change proposal the user approves. Use when the user says correct course / đổi hướng / plan này không ổn nữa, when a builder or reviewer reports the plan cannot work, or when the review loop hits its cap. Not for small patches (work-order triage handles those) or brand-new features (ba-flow-logic)."
+description: "Handle a significant mid-work change (technical limit, new or misunderstood requirement, pivot, failed approach): assess impact on work orders, specs, ADRs and tests, weigh paths (adjust, roll back, cut scope), and produce a change proposal for approval. Use when the user says correct course / đổi hướng / plan này không ổn nữa, a builder or reviewer reports the plan cannot work, or the review loop hits its cap. Not for small patches (work-order) or brand-new features (ba-flow-logic)."
 ---
 
 # Course Correct

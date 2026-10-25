@@ -109,7 +109,7 @@ atelier/
 ├── README.md · NOTICE.md · LICENSE · .gitignore · .gitattributes
 ├── install.ps1 · install.sh        install into ~/.claude with timestamped backups
 ├── global/CLAUDE.md                atelier block (workflow + skill-routing table), merged into CLAUDE.md
-├── skills/<name>/SKILL.md          10 skills (+ references/, templates/, opt-in *-verify.sh)
+├── skills/<name>/SKILL.md          14 skills (+ references/, templates/, opt-in *-verify.sh)
 ├── personal/mkn-xu-ly-task/        project-specific skill, installed unless --no-personal
 ├── agents/*.md                     router, explorer, builder, reviewer, architect
 ├── hooks/                          skill-router (UserPromptSubmit) + git-guard (PreToolUse) + wire.js

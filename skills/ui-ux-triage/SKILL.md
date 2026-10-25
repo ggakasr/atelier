@@ -1,6 +1,6 @@
 ---
 name: ui-ux-triage
-description: "Team-agent triage + fix loop — pha VẬN HÀNH của pipeline BA→design→build→triage, cho app ĐANG CHẠY: đọc ba-spec (AC = oracle hành vi) + design-spec (oracle giao diện) để phân loại defect, sửa qua cổng risk tier, chỉ escalate RED. Repo-agnostic (auto-discover + triage.config). Kích hoạt: màn này sai/lệch, screenshot kèm câu than ngắn, nút bấm không ăn, test + fix flow, reproduce lỗi hiển thị. KHÔNG: nhu cầu/tính năng mới (→ba-flow-logic), thiết kế mới hoặc redesign (→ui-design-logic). Code khớp spec mà vẫn sai → handoff ngược ba-flow-logic; defect có mùi bảo mật → security-logic. Không đụng DB production, không auto-commit."
+description: "Triage and fix loop for defects in a RUNNING app: uses ba-spec and design-spec as oracles to classify defects, fixes through risk-tier gates, escalates only RED; no production DB, no auto-commit. Use when a screen is wrong (màn này sai/lệch), a screenshot comes with a short complaint, or a button does nothing. Not for new features (ba-flow-logic) or redesign (ui-design-logic); code matching spec but still wrong goes to ba-flow-logic; security smell to security-logic."
 ---
 
 # UI/UX Triage — Team Agent (composable, repo-agnostic)

@@ -1,6 +1,6 @@
 ---
 name: decision-log
-description: "Keep a per-task, append-only decision log (decisions, constraints, assumptions, questions, answers, changes, overrides, events) plus an addendum for depth that does not belong in the main artifact; resume work from the log, and promote long-lived architectural decisions to an ADR. Use when starting non-trivial work (any full-route work order, BA run, design-spec, course correction), when the user makes or reverses a decision, when resuming a task from an earlier session (tiếp tục task hôm trước), or when asked why something was decided."
+description: "Keep a per-task append-only decision log (decisions, assumptions, questions, changes, overrides) plus an addendum, resume work from it, and promote lasting decisions to an ADR. Use when starting non-trivial work (full-route work order, BA run, design-spec, course correction), when the user makes or reverses a decision, resumes an earlier task (tiếp tục task hôm trước), or asks why something was decided."
 ---
 
 # Decision Log

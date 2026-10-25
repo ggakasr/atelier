@@ -1,6 +1,6 @@
 ---
 name: atelier-core
-description: "Atelier operating rules for working in a codebase with Claude Code: LOGIC vs REQUEST, GREEN/YELLOW/RED risk tiers (RED = stop and ask one combined question), authority levels L0-L3, minimal context routing, doc/code drift, build discipline, and which apprentice (subagent, model, effort) does which job. Use when starting work in a repo, onboarding an agent to an existing repo, deciding how to delegate, or when the AI invents function names, reads the wrong files, context is too long, docs drift from code, or it is unclear which atelier skill applies (dựng project mới với AI, docs lệch code, không biết dùng skill nào). Not for business analysis (ba-flow-logic), UI design (ui-design-logic), defects in a running app (ui-ux-triage) or security review (security-logic)."
+description: "Atelier operating rules: LOGIC vs REQUEST, GREEN/YELLOW/RED risk tiers (RED = stop, ask one question), authority levels, minimal context routing, doc/code drift, and which subagent does which job. Use when starting or onboarding a repo, deciding how to delegate, the AI invents function names or docs drift from code (docs lệch code), or unsure which atelier skill applies. Not for BA (ba-flow-logic), UI design (ui-design-logic), running-app defects (ui-ux-triage) or security (security-logic)."
 ---
 
 # Atelier Core

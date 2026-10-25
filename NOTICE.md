@@ -98,6 +98,21 @@ these trademarks in this software does not grant any rights to use the trademark
 for any other purpose. See [TRADEMARK.md](TRADEMARK.md) for detailed guidelines.
 ```
 
+## 2b. mattpocock/skills (MIT) (text copied and adapted)
+
+- Source: https://github.com/mattpocock/skills, reference commit
+  `5beb35b040e3de97e54fa9e386d7e42d15c295c2`.
+- What atelier copies: the skills `diagnosing-bugs` (with `scripts/hitl-loop.template.sh`),
+  `tdd` (with `mocking.md` and `tests.md`), `pr` and `handoff`. Each folder carries its own
+  `LICENSE-mattpocock.md`.
+- Atelier changes: an English "Atelier notes" block under the frontmatter, rewritten
+  `description:` lines, removal of `disable-model-invocation: true` (handoff), and removal of
+  the Codex `agents/openai.yaml` files. The skill bodies are unchanged.
+- `pr` also keeps its credit to Dex Horthy's `show-me` skill (Humanlayer); see
+  `skills/pr/CREDITS.md`.
+- Copyright line from the upstream license: `Copyright (c) 2026 Matt Pocock` (MIT License,
+  full text in each `skills/<name>/LICENSE-mattpocock.md`).
+
 ## 3. Atelier
 
 Atelier's own content (README, the new skills, agents, installers, templates) is © 2026

@@ -1,6 +1,6 @@
 ---
 name: elicit
-description: "Pressure-test and improve a recent output — a spec, plan, work order, design-spec, ADR, decision or draft — by offering a short menu of critique methods (pre-mortem, first principles, red team, inversion, assumption audit, 5 whys, Socratic, edge-case sweep, and others), running the chosen ones, and applying only the changes the user accepts. Use when the user asks for deeper critique, says pre-mortem / red team / phản biện / soi kỹ lại / what could go wrong, or names a critique method; other skills may call it at a natural pause."
+description: "Pressure-test a recent output (spec, plan, work order, design-spec, ADR, draft) by offering a short menu of critique methods, running the chosen ones, and applying only changes the user accepts. Use when the user asks for deeper critique, says pre-mortem / red team / phản biện / soi kỹ lại / what could go wrong, or names a method (first principles, inversion, 5 whys); other skills may call it at a pause."
 ---
 
 # Elicit

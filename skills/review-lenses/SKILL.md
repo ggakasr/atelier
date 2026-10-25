@@ -1,6 +1,6 @@
 ---
 name: review-lenses
-description: "Review a diff, branch, uncommitted changes, spec or document through independent lenses — adversarial, edge-case hunter, verification-gap, spec-alignment — run as parallel context-free reviewer subagents, then triage every finding (verify, verdict, route). Use when the user says review / soát / check this diff / review PR, or when a work order's review depth is quick or thorough. Not for applying feedback from an earlier review (that is a change), and never run uninvited on your own edits outside a work order."
+description: "Review a diff, branch, uncommitted changes, spec or document through independent lenses (adversarial, edge-case, verification-gap, spec-alignment) run as parallel reviewer subagents, then triage every finding. Use when the user says review / soát / check this diff / review PR, or a work order sets review depth quick or thorough. Not for applying feedback from an earlier review (that is a change); never run uninvited on your own edits outside a work order."
 ---
 
 # Review Lenses

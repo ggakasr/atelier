@@ -1,6 +1,6 @@
 ---
 name: mkn-xu-ly-task
-description: "Quy trình xử lý một task/lỗi của MKN v3 theo cách của chủ kho (thu/Hà): nhận ảnh + mô tả từ web dev → tìm nguyên nhân → đề xuất giải thuật chờ gật → nhánh mới từ develop → test đầy đủ (ma trận dữ liệu, ca API/UI, subagent chạy song song) → báo cáo tổng thể → draft PR chỉ khi người dùng bảo dùng được. Dùng khi người dùng gửi một task kiểu 'trạng thái/hiển thị/số liệu sai' kèm ảnh, hoặc nói 'làm theo quy trình', 'có đầy đủ test như vừa rồi'. KHÔNG dùng cho câu hỏi giải thích, đổi nhỏ một dòng đã rõ."
+description: "MKN v3 task/bug workflow in the owner's way: web-dev image + description, find cause, propose algorithm and wait for approval, new branch from develop, full tests (data matrix, API/UI cases, parallel subagents), overall report, draft PR only when told it works. Use when the user sends a 'trạng thái/hiển thị/số liệu sai' task with a screenshot, or says 'làm theo quy trình' / 'có đầy đủ test như vừa rồi'. Not for explanation questions or clear one-line edits."
 ---
 
 # Xử lý task MKN — quy trình của chủ kho
