@@ -49,9 +49,13 @@ Interpretation: <one line>
 1. `<path>` — <concrete action>
 2. `<path>` — <concrete action>
 
-## Verification
+## Done when
 
-- `<command>` — <what it proves>
+<!-- Required. 3-5 checkable lines; each says how it is verified (command, test name, search or screenshot). -->
+
+- [ ] <observable check> — verified by: `<command | test name | search | screenshot>`
+
+Verification command(s): `<command>` — <what it proves>
 
 ## Open questions / Assumptions
 

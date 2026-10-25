@@ -41,6 +41,7 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 - The main session talks to me, routes, decides and relays short reports. It does at most 2 quick read-only calls itself.
 - Everything else goes to an apprentice (subagent) that returns a summary: surveys and wide reads, browser/screenshot/measure work, edits, tests, reviews. Independent pieces run in parallel; pieces that could touch the same files get their own worktree.
 - A `[foreman]` line from the hook means the main session has been doing the work itself. Stop, delegate the next chunk, say so in one line.
+- **Weak run = verifiable signal, never my taste**: failing command/test, "done" with no proof, a failed "Done when" check, scope drift, invented names, same error twice, or a blocking reviewer finding. Only then move one step up (sonnet → opus; effort low → medium → high → xhigh), max 2 steps, then stop and tell me what still fails. No signal = no escalation. Details in `atelier-core` ("Weak run and escalation").
 - **Session hygiene**: when the topic changes, the work becomes its own branch or PR, or the context is heavy or has been summarised, say so in one line and offer a fresh session. Keep decisions in the task's decision-log and work orders so a fresh session restarts cheaply.
 
 ## Skill upkeep

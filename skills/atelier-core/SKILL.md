@@ -47,6 +47,35 @@ Rules for briefs: the apprentice starts cold. Give it the goal, the exact paths,
 the risk tier, and what to return. A written `work-order` is the preferred brief for anything
 beyond a one-shot change. Independent jobs run in parallel. Don't spawn more than the job needs.
 
+## Weak run and escalation
+
+A run is judged weak by checks anyone can verify, never by the user's taste. The foreman (or a
+separate reviewer) judges, not the user.
+
+A run is **WEAK** only if at least one of these holds:
+
+1. A command, test or build fails (non-zero exit), or tests fail after the agent said done.
+2. "Done" is claimed with no proof: the check command from the work order was not run, or its output is missing.
+3. An acceptance check (a "Done when" line) from the work order fails.
+4. Scope drift: the diff touches files outside the work order's list, or misses required ones.
+5. Invented facts: a function, file or path the agent names does not exist (verify with a search).
+6. Thrashing: the same error after 2 attempts.
+7. A separate reviewer agent (never the one that did the work) reports a blocking finding.
+
+**Gray zone:** if no signal holds, the run is NOT weak, even if the result feels mediocre. Do not
+escalate (this prevents cost creep). Taste questions (does it look right) are not model problems:
+show a before/after or a screenshot and ask the user one closed question.
+
+**Escalation ladder:** model sonnet → opus; effort low → medium → high → xhigh. Haiku jobs
+(`router`, `explorer`) go to sonnet first. Do not use fable. Start every job at the cheapest row of
+the table above that fits. On a weak signal, move up exactly one step and re-run with the same
+brief plus the failure evidence. At most 2 steps up per task. After that, stop and tell the user in
+one line what was tried and what still fails.
+
+**No objective test (design, writing):** before work, write 3-5 plain-language "Done when" checks
+(example: "the table does not scroll sideways at 375px") into the work order and get the user's
+one-time approval. Those checks are the yardstick.
+
 ## 3. Pipeline and skills
 
 ```

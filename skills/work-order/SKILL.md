@@ -36,9 +36,12 @@ Use [templates/work-order.md](templates/work-order.md). Fields:
 | **Non-goals** | At least one. An empty list invites the builder to fill the gap. |
 | **Context** | The exact files the builder must read first (specs, module CLAUDE.md, the code to touch). |
 | **Tasks** | Ordered by dependency. Each has a file path and a concrete action. |
-| **Verification** | The commands that prove it works (tests, lint, type-check, a manual step). |
+| **Done when** | Required: 3-5 checkable lines, each with how it is verified, plus the `Verification command(s):` line (tests, lint, type-check, a manual step). The order is not ready without them. |
 | **Risk tier** | GREEN / YELLOW / RED, with the reason. RED parts list the one question that was asked and its answer. |
 | **Open questions / Assumptions** | Anything investigation could not settle. Never invent an answer. |
+
+The builder's report must include the proof for each "Done when" check (command output or
+file:line). A missing proof counts as a weak run (see atelier-core "Weak run and escalation").
 
 Ready means actionable, ordered, testable, complete (no TBD) and coherent. Size: usually one
 to two pages. Shorter invites guessing. Much longer rots in the builder's context, so move
