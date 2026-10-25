@@ -11,7 +11,11 @@ function backup(file) {
 }
 
 function mergeClaudeMd() {
-  const block = fs.readFileSync(blockFile, 'utf8').trim();
+  const src = fs.readFileSync(blockFile, 'utf8').trim();
+  // fresh install gets the whole file; otherwise only the marked block is merged, so your own sections stay yours
+  const sb = src.indexOf(BEGIN), se = src.indexOf(END);
+  const exists = fs.existsSync(target) && fs.readFileSync(target, 'utf8').trim();
+  const block = exists && sb !== -1 && se > sb ? src.slice(sb, se + END.length) : src;
   let cur = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : '';
   const b = cur.indexOf(BEGIN), e = cur.indexOf(END);
   if (b !== -1 && e > b) {
