@@ -13,6 +13,7 @@ param(
   [switch]$DryRun,
   [switch]$NoPersonal,
   [switch]$NoClaudeMd,
+  [switch]$WireHooks,
   [string]$ClaudeHome = $(if ($env:CLAUDE_HOME) { $env:CLAUDE_HOME } else { Join-Path $HOME '.claude' })
 )
 $ErrorActionPreference = 'Stop'
@@ -76,10 +77,20 @@ if (-not $NoPersonal -and (Test-Path $personal)) {
 Get-ChildItem -LiteralPath (Join-Path $Repo 'agents') -Filter '*.md' -File | ForEach-Object {
   Install-Item $_.FullName (Join-Path $ClaudeHome "agents\$($_.Name)") "agents\$($_.Name)"
 }
+Get-ChildItem -LiteralPath (Join-Path $Repo 'hooks') -File | Where-Object { $_.Extension -in '.sh', '.js' } | ForEach-Object {
+  Install-Item $_.FullName (Join-Path $ClaudeHome "hooks\$($_.Name)") "hooks\$($_.Name)"
+}
 if (-not $NoClaudeMd) {
-  Install-Item (Join-Path $Repo 'global\CLAUDE.md') (Join-Path $ClaudeHome 'CLAUDE.md') 'CLAUDE.md'
+  Say "merge    atelier block -> $ClaudeHome\CLAUDE.md (your other content is kept; a .atelier-bak copy is made)"
+  if (-not $DryRun) { node (Join-Path $Repo 'hooks\wire.js') claude-md (Join-Path $ClaudeHome 'CLAUDE.md') (Join-Path $Repo 'global\CLAUDE.md'); if ($LASTEXITCODE) { throw 'node merge failed' } }
+  $script:Count++
+}
+if ($WireHooks) {
+  Say "wire     hooks -> $ClaudeHome\settings.json"
+  if (-not $DryRun) { node (Join-Path $Repo 'hooks\wire.js') settings (Join-Path $ClaudeHome 'settings.json'); if ($LASTEXITCODE) { throw 'node wire failed' } }
 }
 
 Write-Host "atelier: $($script:Count) item(s) processed."
 if (-not $DryRun -and (Test-Path $Backup)) { Write-Host "atelier: backups in $Backup" }
-Write-Host "atelier: hooks are opt-in - see hooks\README.md. Restart Claude Code to pick up new agents."
+if (-not $WireHooks) { Write-Host "atelier: hooks are copied but not active - re-run with -WireHooks (see hooks\README.md)." }
+Write-Host "atelier: restart Claude Code to pick up new agents and hooks."

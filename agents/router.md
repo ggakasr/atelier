@@ -23,7 +23,7 @@ Bạn là agent route context. Nhiệm vụ DUY NHẤT: nhận task description,
 
 ## Cổng đọc verify-on-use (nguyên tắc 12 v2)
 
-Trước khi xuất file list: đọc `docs/app-map/_generated/doc-status.md` (nếu có). Gắn trạng thái cho từng app-map file trong list: ✅ VERIFIED / ⚠️ SUSPECT / ☠️ ORPHANED. **Fail-closed**: không có status file (hoặc doc không có trong đó) mà doc CÓ dòng `covers:` → coi là ⚠️ SUSPECT, không phải UNKNOWN — thiếu thông tin nghiêng về an toàn. Doc SUSPECT vẫn được route — nhưng phải gắn cờ để main agent verify trước khi tin.
+Trước khi xuất file list: đọc `docs/app-map/_generated/doc-status.md` (nếu có). Gắn trạng thái cho từng app-map file trong list: ✅ VERIFIED / ⚠️ SUSPECT / ☠️ ORPHANED. **Fail-closed**: nếu status file CÓ tồn tại nhưng doc không có trong đó mà doc CÓ dòng `covers:` → coi là ⚠️ SUSPECT. Nếu status file KHÔNG tồn tại (atelier không ship generator) → không gắn SUSPECT hàng loạt; ghi một dòng "chưa có doc-status — verify doc với code trước khi tin" cho cả list. Doc SUSPECT vẫn được route — nhưng phải gắn cờ để main agent verify trước khi tin.
 
 ## Output format (BẮT BUỘC)
 

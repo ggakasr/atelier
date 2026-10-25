@@ -1,6 +1,15 @@
-# Opt-in hooks
+# Hooks
 
-Atelier installs **no** hooks. Everything here is opt-in, and you wire it up yourself.
+The installer copies these into `~/.claude/hooks/`. They only run once registered: pass
+`--wire-hooks` (`-WireHooks` on Windows) to the installer, which merges them into
+`~/.claude/settings.json` (backup made, safe to repeat). Or wire them yourself as shown below.
+
+## skill-router.sh (UserPromptSubmit)
+
+Matches keywords in your prompt (English and Vietnamese) and adds a `[skill-router]` line to the
+model's context naming the skills that fit, so e.g. "the UI/UX needs improvement" points at
+`ui-design-logic`. It only suggests, never blocks. Test: `sh hooks/skill-router.sh --self-test`.
+To add a keyword or skill, edit the `route()` list in the script.
 
 ## git-guard.sh (PreToolUse, Bash)
 

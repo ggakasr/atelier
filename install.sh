@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 # atelier installer (macOS / Linux / Git Bash on Windows).
-# Copies skills/, personal/, agents/ and global/CLAUDE.md into ~/.claude.
+# Copies skills/, personal/, agents/ and hooks/ into ~/.claude and merges the atelier block into CLAUDE.md.
 # Anything it would replace is first copied to ~/.claude/atelier-backups/<timestamp>/.
 #
-# Usage: ./install.sh [--dry-run] [--no-personal] [--no-claude-md] [--claude-home DIR]
+# Usage: ./install.sh [--dry-run] [--no-personal] [--no-claude-md] [--wire-hooks] [--claude-home DIR]
 set -euo pipefail
 
 DRY_RUN=0
 WITH_PERSONAL=1
 WITH_CLAUDE_MD=1
+WIRE_HOOKS=0
 CLAUDE_HOME="${CLAUDE_HOME:-$HOME/.claude}"
 
 usage() {
-  sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'
+  sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'
   echo "Options:"
   echo "  --dry-run          print what would happen; change nothing"
   echo "  --no-personal      skip personal/ skills"
-  echo "  --no-claude-md     do not install global/CLAUDE.md"
+  echo "  --no-claude-md     do not merge the atelier block into CLAUDE.md"
+  echo "  --wire-hooks       also register the hooks in settings.json (needs node)"
   echo "  --claude-home DIR  target instead of \$CLAUDE_HOME or ~/.claude"
 }
 
@@ -25,6 +27,7 @@ while [ $# -gt 0 ]; do
     --dry-run|-n) DRY_RUN=1 ;;
     --no-personal) WITH_PERSONAL=0 ;;
     --no-claude-md) WITH_CLAUDE_MD=0 ;;
+    --wire-hooks) WIRE_HOOKS=1 ;;
     --claude-home) shift; [ $# -gt 0 ] || { echo "--claude-home needs a value" >&2; exit 2; }; CLAUDE_HOME="$1" ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown option: $1" >&2; usage >&2; exit 2 ;;
@@ -77,10 +80,20 @@ for f in "$REPO"/agents/*.md; do
   name="$(basename "$f")"
   install_item "$f" "$CLAUDE_HOME/agents/$name" "agents/$name"; count=$((count+1))
 done
+for f in "$REPO"/hooks/*.sh "$REPO"/hooks/wire.js; do
+  name="$(basename "$f")"
+  install_item "$f" "$CLAUDE_HOME/hooks/$name" "hooks/$name"; count=$((count+1))
+done
 if [ "$WITH_CLAUDE_MD" -eq 1 ]; then
-  install_item "$REPO/global/CLAUDE.md" "$CLAUDE_HOME/CLAUDE.md" "CLAUDE.md"; count=$((count+1))
+  say "merge    atelier block -> $CLAUDE_HOME/CLAUDE.md (your other content is kept; a .atelier-bak copy is made)"
+  run node "$REPO/hooks/wire.js" claude-md "$CLAUDE_HOME/CLAUDE.md" "$REPO/global/CLAUDE.md"; count=$((count+1))
+fi
+if [ "$WIRE_HOOKS" -eq 1 ]; then
+  say "wire     hooks -> $CLAUDE_HOME/settings.json"
+  run node "$REPO/hooks/wire.js" settings "$CLAUDE_HOME/settings.json"
 fi
 
 echo "atelier: $count item(s) processed."
 if [ "$DRY_RUN" -eq 0 ] && [ -d "$BACKUP" ]; then echo "atelier: backups in $BACKUP"; fi
-echo "atelier: hooks are opt-in - see hooks/README.md. Restart Claude Code to pick up new agents."
+[ "$WIRE_HOOKS" -eq 1 ] || echo "atelier: hooks are copied but not active - re-run with --wire-hooks (see hooks/README.md)."
+echo "atelier: restart Claude Code to pick up new agents and hooks."

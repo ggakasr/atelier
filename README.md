@@ -108,11 +108,11 @@ opus/high for thorough or security reviews.
 atelier/
 ├── README.md · NOTICE.md · LICENSE · .gitignore · .gitattributes
 ├── install.ps1 · install.sh        install into ~/.claude with timestamped backups
-├── global/CLAUDE.md                your global rules + a short atelier section
+├── global/CLAUDE.md                atelier block (workflow + skill-routing table), merged into CLAUDE.md
 ├── skills/<name>/SKILL.md          10 skills (+ references/, templates/, opt-in *-verify.sh)
 ├── personal/mkn-xu-ly-task/        project-specific skill, installed unless --no-personal
 ├── agents/*.md                     router, explorer, builder, reviewer, architect
-├── hooks/                          opt-in git-guard PreToolUse hook + how to wire linters
+├── hooks/                          skill-router (UserPromptSubmit) + git-guard (PreToolUse) + wire.js
 └── project-template/               drop into a new repo: CLAUDE.md (tiny) + docs/
     └── docs/ app-map/ · work-orders/ · decision-log/ · decisions/
 ```
@@ -143,16 +143,22 @@ Why this layout differs a little from the original plan:
 ```
 
 The installer copies `skills/*` and `personal/*` to `~/.claude/skills/<name>/`, `agents/*.md`
-to `~/.claude/agents/`, and `global/CLAUDE.md` to `~/.claude/CLAUDE.md`. Before it replaces
-anything, it copies the old version to `~/.claude/atelier-backups/<yyyyMMdd-HHmmss>/`. It
-removes nothing else, installs no hooks and edits no `settings.json`. Restart Claude Code
+to `~/.claude/agents/` and `hooks/*` to `~/.claude/hooks/`. `global/CLAUDE.md` is merged, not
+copied: only the block between the `atelier:begin/end` markers is replaced, the rest of your
+`CLAUDE.md` stays. Before it replaces anything, it copies the old version to
+`~/.claude/atelier-backups/<yyyyMMdd-HHmmss>/`. It removes nothing else. It edits
+`settings.json` only with `--wire-hooks` / `-WireHooks`, which registers skill-router and
+git-guard (needs node). Restart Claude Code
 afterwards so it picks up the new agents.
 
 To start a project, copy `project-template/` into the repo root, fill the `{{...}}` blanks in
 `CLAUDE.md`, and delete the doc folders you don't need.
 
-## Opt-in extras
+## Hooks and extras
 
+- `hooks/skill-router.sh`: a UserPromptSubmit hook that spots what a request is about and tells the
+  model which skill to invoke (e.g. "UI/UX needs improvement" -> `ui-design-logic`). The routing
+  table in `global/CLAUDE.md` does the same from the model's side.
 - `hooks/git-guard.sh`: a PreToolUse hook that blocks `git reset`, `git stash`, `git restore`
   and `git checkout -- <path>`, so your uncommitted work is safe. See `hooks/README.md`.
 - `*-verify.sh` inside four of the skills: read-only POSIX linters for spec docs, which you
