@@ -145,7 +145,8 @@ Why this layout differs a little from the original plan:
 The installer copies `skills/*` and `personal/*` to `~/.claude/skills/<name>/`, `agents/*.md`
 to `~/.claude/agents/` and `hooks/*` to `~/.claude/hooks/`. `global/CLAUDE.md` is merged, not
 copied: only the block between the `atelier:begin/end` markers is replaced, the rest of your
-`CLAUDE.md` stays. Before it replaces anything, it copies the old version to
+`CLAUDE.md` stays. The same block is merged into `~/AGENTS.md` (Codex copy; created if missing,
+one-time migration if it has no markers), skipped with `--no-claude-md` / `-NoClaudeMd`. Before it replaces anything, it copies the old version to
 `~/.claude/atelier-backups/<yyyyMMdd-HHmmss>/`. It removes nothing else. It edits
 `settings.json` only with `--wire-hooks` / `-WireHooks`, which registers skill-router and
 git-guard (needs node). Restart Claude Code

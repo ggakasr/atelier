@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // atelier: merge helpers used by the installers (needs only node). Idempotent; always backs up first.
 //   node wire.js claude-md <target CLAUDE.md> <block file>   replace/insert the atelier block
-//   node wire.js settings  <settings.json>                   register the atelier hooks
+//   node wire.js agents-md <target AGENTS.md> <block file>   same, for the Codex-style ~/AGENTS.md
+//   node wire.js settings <settings.json>                   register the atelier hooks
 const fs = require('fs');
 const [, , cmd, target, blockFile] = process.argv;
 const BEGIN = '<!-- atelier:begin', END = '<!-- atelier:end -->';
@@ -23,6 +24,27 @@ function mergeClaudeMd() {
   } else {
     // first merge: drop the old unmarked "## Atelier workflow" section, keep everything else
     cur = cur.replace(/^## Atelier workflow[^\n]*\n[\s\S]*?(?=^## |(?![\s\S]))/m, '');
+    cur = cur.replace(/\s+$/, '') + (cur.trim() ? '\n\n' : '') + block;
+  }
+  backup(target);
+  fs.writeFileSync(target, cur.replace(/\s+$/, '') + '\n');
+  console.log(`merged atelier block into ${target}`);
+}
+
+function mergeAgentsMd() {
+  // same marked block as CLAUDE.md, merged into a Codex-style AGENTS.md; text outside the markers is never touched
+  const src = fs.readFileSync(blockFile, 'utf8');
+  const sb = src.indexOf(BEGIN), se = src.indexOf(END);
+  if (sb === -1 || se < sb) { console.error(`no atelier block markers in ${blockFile}`); process.exit(1); }
+  const block = src.slice(sb, se + END.length);
+  let cur = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : '';
+  const b = cur.indexOf(BEGIN), e = cur.indexOf(END);
+  if (b !== -1 && e > b) {
+    cur = cur.slice(0, b) + block + cur.slice(e + END.length);
+  } else if (/^## Atelier workflow/m.test(cur)) {
+    // one-time migration of an unmarked file: the old section runs up to "## Code discipline" (or the end)
+    cur = cur.replace(/^## Atelier workflow[^\n]*\n[\s\S]*?(?=^## Code discipline|(?![\s\S]))/m, () => block + '\n\n');
+  } else {
     cur = cur.replace(/\s+$/, '') + (cur.trim() ? '\n\n' : '') + block;
   }
   backup(target);
@@ -56,5 +78,6 @@ function wireSettings() {
 }
 
 if (cmd === 'claude-md' && target && blockFile) mergeClaudeMd();
+else if (cmd === 'agents-md' && target && blockFile) mergeAgentsMd();
 else if (cmd === 'settings' && target) wireSettings();
-else { console.error('usage: wire.js claude-md <target> <block> | settings <settings.json>'); process.exit(2); }
+else { console.error('usage: wire.js claude-md <target> <block> | agents-md <target> <block> | settings <settings.json>'); process.exit(2); }

@@ -87,6 +87,9 @@ done
 if [ "$WITH_CLAUDE_MD" -eq 1 ]; then
   say "merge    atelier block -> $CLAUDE_HOME/CLAUDE.md (your other content is kept; a .atelier-bak copy is made)"
   run node "$REPO/hooks/wire.js" claude-md "$CLAUDE_HOME/CLAUDE.md" "$REPO/global/CLAUDE.md"; count=$((count+1))
+  AGENTS_MD="$(dirname "$CLAUDE_HOME")/AGENTS.md"
+  say "merge    atelier block -> $AGENTS_MD (your other content is kept; a .atelier-bak copy is made)"
+  run node "$REPO/hooks/wire.js" agents-md "$AGENTS_MD" "$REPO/global/CLAUDE.md"; count=$((count+1))
 fi
 if [ "$WIRE_HOOKS" -eq 1 ]; then
   say "wire     hooks -> $CLAUDE_HOME/settings.json"

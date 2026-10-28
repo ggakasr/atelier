@@ -84,6 +84,10 @@ if (-not $NoClaudeMd) {
   Say "merge    atelier block -> $ClaudeHome\CLAUDE.md (your other content is kept; a .atelier-bak copy is made)"
   if (-not $DryRun) { node (Join-Path $Repo 'hooks\wire.js') claude-md (Join-Path $ClaudeHome 'CLAUDE.md') (Join-Path $Repo 'global\CLAUDE.md'); if ($LASTEXITCODE) { throw 'node merge failed' } }
   $script:Count++
+  $AgentsMd = Join-Path (Split-Path -Parent $ClaudeHome) 'AGENTS.md'
+  Say "merge    atelier block -> $AgentsMd (your other content is kept; a .atelier-bak copy is made)"
+  if (-not $DryRun) { node (Join-Path $Repo 'hooks\wire.js') agents-md $AgentsMd (Join-Path $Repo 'global\CLAUDE.md'); if ($LASTEXITCODE) { throw 'node merge failed' } }
+  $script:Count++
 }
 if ($WireHooks) {
   Say "wire     hooks -> $ClaudeHome\settings.json"
