@@ -10,6 +10,7 @@ I am the master; you are the foreman; subagents are apprentices. Skill `atelier-
 Match my request to a skill by **intent**, not exact words (English or Vietnamese), across ALL installed skills, not only atelier's.
 - Clear match → invoke it with the Skill tool right away; say in one line which skill and why. Do not ask first.
 - Two plausible skills → start the best one, name the runner-up in the same line.
+- The main session loads the matching skill itself with the Skill tool BEFORE delegating, even when the work then goes to a subagent. Subagents (builder, reviewer, explorer) have no Skill tool, so "use skill X" in a brief does nothing: put the skill's `SKILL.md` path (and the reference files it needs) in the brief and tell the subagent to Read them, or paste the rules that matter.
 - No match, or a trivial one-line edit or plain question → skip; do not force a skill.
 - A `[skill-router]` line injected by the prompt hook is a strong hint. Verify it fits, then follow it.
 
