@@ -13,6 +13,8 @@
 const RULES = [
   ['mkn-xu-ly-task', /\bmkn\b|l[aà]m theo quy tr[iì]nh/i],
   ['week-usage', /usage tu[aầ]n|week.?usage|token.*tu[aầ]n/i],
+  // whole-system audit+QA: only specific phrases, never bare 'audit' / 'security audit' / 'đánh giá' (those stay with security-logic, review-lenses)
+  ['system-audit', /\b(system|full|comprehensive) (audit|qa)\b|audit h[eệ] th[oố]ng|audit to[aà]n di[eệ]n|[dđ][aá]nh gi[aá] to[aà]n di[eệ]n|ki[eể]m th[uử] to[aà]n b[oộ]|h[eệ] th[oố]ng [dđ][aã] t[oố]t ch[uư]a|[dđ][uủ] [dđ][eể] d[uù]ng th[uự]c t[eế]|qa to[aà]n di[eệ]n/i],
   // spec-first lane (sdd-*): only specific phrases, never bare 'spec' / 'yêu cầu' / 'plan' / 'task' (those stay with ba-flow-logic, work-order)
   ['sdd-implement', /\bimplement\b.{0,30}\btasks?(\.md)?\b|tasks\.md.{0,30}\bimplement|implement theo tasks|th[uự]c thi tasks?/i],
   ['sdd-clarify', /\bclarify\b.{0,20}\b(spec|requirements?)\b|l[aà]m r[oõ] (spec|[dđ][aặ]c t[aả]|y[eê]u c[aầ]u)|h[oỏ]i l[aạ]i y[eê]u c[aầ]u|\bspec\b.{0,20}\bambigu/i],
@@ -163,7 +165,23 @@ function selfTest() {
   tn('this function crashes, find the root cause', 'sdd-');
   tn('review the diff', 'sdd-');
 
-  const long = 'spec flow review security crash chart pdf slow implement ui layout';
+  // system-audit: positives
+  t('run a full audit of the whole system', 'system-audit');
+  t('do a comprehensive QA before launch', 'system-audit');
+  t('audit hệ thống này giúp tôi', 'system-audit');
+  t('hệ thống đã tốt chưa, đủ để dùng thực tế chưa', 'system-audit');
+  t('kiểm thử toàn bộ rồi đánh giá toàn diện', 'system-audit');
+  // system-audit: anti-hijack
+  t('do a security audit of the login', 'security-logic');
+  tn('do a security audit of the login', 'system-audit');
+  tn('audit an toàn phần đăng nhập, review bảo mật', 'system-audit');
+  t('review bảo mật module thanh toán', 'security-logic');
+  tn('review this diff', 'system-audit');
+  tn('màn này sai số liệu, bị lệch', 'system-audit');
+  tn('spec plan tasks có nhất quán không', 'system-audit');
+  tn('code đã khớp spec chưa', 'system-audit');
+
+  const long ='spec flow review security crash chart pdf slow implement ui layout';
   const out = handle(JSON.stringify({ prompt: long }));
   const m = /skills: ([^.]*)/.exec(out);
   const n = m ? m[1].split(',').length : 0;

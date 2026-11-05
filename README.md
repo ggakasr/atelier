@@ -70,6 +70,7 @@ OK: installs, external messages, publish/deploy, push, or reading production dat
 | `ui-design-logic` | ai-simple upstream + your local trigger wording | `architect` (opus, high) for the spec; `builder` (sonnet, low–medium) builds; `reviewer` (sonnet, medium) for screenshot QA |
 | `ui-ux-triage` | ai-simple upstream + your local description | Main session as Lead; Fixer `builder` (sonnet, medium); Advisor `architect` (opus, high) |
 | `security-logic` | ai-simple upstream | `reviewer`: opus/high on auth, payment, crypto or migrations; sonnet/medium otherwise |
+| `system-audit` | atelier | Main session leads; evidence-based audit + QA of a whole running system, one scored report, fixes only safe items |
 | `work-order` | new, inspired by BMAD-METHOD | Main session writes it (`architect` for complex work); `builder` executes |
 | `review-lenses` | new, inspired by BMAD-METHOD | One `reviewer` per lens: sonnet/medium for quick, opus/high for thorough |
 | `decision-log` | new, inspired by BMAD-METHOD | Whoever does the work (no subagent) |
@@ -110,7 +111,7 @@ atelier/
 ├── README.md · NOTICE.md · LICENSE · .gitignore · .gitattributes
 ├── install.ps1 · install.sh        install into ~/.claude with timestamped backups
 ├── global/CLAUDE.md                atelier block (workflow + skill-routing table), merged into CLAUDE.md
-├── skills/<name>/SKILL.md          25 skills (+ references/, templates/, opt-in *-verify.sh)
+├── skills/<name>/SKILL.md          26 skills (+ references/, templates/, opt-in *-verify.sh)
 ├── personal/mkn-xu-ly-task/        project-specific skill, installed unless --no-personal
 ├── agents/*.md                     router, explorer, builder, reviewer, architect
 ├── hooks/                          skill-router (UserPromptSubmit) + git-guard (PreToolUse) + wire.js

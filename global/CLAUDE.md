@@ -26,6 +26,7 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 | WHAT is agreed: làm đi, build it, implement | `work-order` |
 | Review / soát diff, PR, spec | `review-lenses` |
 | Security, secrets, auth, CVE, prompt injection | `security-logic` |
+| Audit the whole system / đánh giá toàn diện, kiểm thử toàn bộ, hệ thống đã tốt chưa | `system-audit` |
 | Plan no longer works, pivot, đổi hướng | `course-correct` |
 | Phản biện, pre-mortem, red team, what could go wrong | `elicit` |
 | Resume an earlier task, why was X decided | `decision-log` |
