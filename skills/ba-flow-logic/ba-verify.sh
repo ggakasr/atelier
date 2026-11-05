@@ -102,6 +102,16 @@ EOF_MAP
   if [ -n "$HITB" ]; then echo "$HITB" | sed 's/^/  BLOCK: AC chua component UI (anti-UI) -> /'; rc=1; fi
   echo "$ACSCAN" | grep -niE "$UI_WARN" 2>/dev/null | sed 's/^/  WARN: AC co the chua tu UI -> /' || true
 
+  # WARN (khong chan): FR-### dinh nghia ma khong AC nao nhac toi; FR/SC-ID dinh nghia trung. Khong co FR -> im lang.
+  FRDEF=$(grep -vE '^###[ \t]*AC' "$f" | grep -E '^[[:space:]]*([-*+][[:space:]]+)?(#+[[:space:]]+)?(\*\*|__)?`?(FR|SC)-[0-9]+' | sed -E 's/^[^FS]*((FR|SC)-[0-9]+).*/\1/')
+  if [ -n "$FRDEF" ]; then
+    ACTXT=$(awk '/^###[ \t]*AC/{p=1;print;next} /^#/{p=0} p' "$f")
+    for fid in $(echo "$FRDEF" | grep '^FR-' | sort -u); do
+      echo "$ACTXT" | grep -qE "(^|[^A-Za-z0-9-])$fid([^0-9]|$)" || echo "  WARN: $fid dinh nghia nhung khong AC nao tham chieu (them vao Maps to: hoac Then/Assert)"
+    done
+    echo "$FRDEF" | sort | uniq -d | while IFS= read -r did; do echo "  WARN: $did dinh nghia TRUNG trong ba-spec (ID phai duy nhat)"; done
+  fi
+
   return $rc
 }
 
@@ -129,6 +139,16 @@ if [ "$MODE" = "--self-test" ]; then
   R=$(lint_one "$T/k.md"); echo "$R" | grep -q "Maps to: 'NV9' khong ton tai" && echo "PASS: Maps-to khong ton tai bi BLOCK" || { echo "FAIL: Maps-to NV9 khong ton tai LOT"; RC=1; }
   printf "# x\n${FM}## Nghiep vu\n| NV1 | them tau |\n## 10. Acceptance\n### AC-1 a · Maps to: NV1 · Test: e2e\n- **Given** chu tau co tau\n- **When** them tau moi\n- **Then** tau moi duoc chon\n- **Assert** count(boats)==2\n" > "$T/l.md"
   R=$(lint_one "$T/l.md"); echo "$R" | grep -q BLOCK && { echo "FAIL: format ForFish hop le bi BLOCK oan:"; echo "$R"; RC=1; } || echo "PASS: chong-oan format ForFish (Maps to + bold G/W/T + enum) qua sach"
+  # FR/SC (WARN, khong doi exit): FR chua AC nao tham chieu, ID trung, spec khong co FR -> im lang
+  ACB='### AC-1 a · Test: e2e\n- **Given** x\n- **When** y\n- **Then** z\n- **Assert** count(x)==0\n'
+  printf "# x\n${FM}## 1. JTBD\n- **FR-001**: a (NV1)\n## Nghiep vu\n| NV1 | a |\n## 10. Acceptance\n### AC-1 a · Maps to: NV1 · Test: e2e\n- **Given** x\n- **When** y\n- **Then** FR-001 dat\n- **Assert** count(x)==0\n" > "$T/m.md"
+  R=$(lint_one "$T/m.md"); echo "$R" | grep -q 'WARN: FR-001' && { echo "FAIL: FR co AC tham chieu van WARN"; RC=1; } || echo "PASS: FR duoc AC tham chieu -> khong WARN"
+  printf "# x\n${FM}## 1. JTBD\n- **FR-001**: a\n- **FR-002**: b\n## 10. Acceptance\n${ACB}" > "$T/n.md"
+  R=$(lint_one "$T/n.md"); echo "$R" | grep -q 'WARN: FR-001' && echo "$R" | grep -q 'WARN: FR-002' && ! echo "$R" | grep -q BLOCK && echo "PASS: FR khong AC nao tham chieu -> WARN, khong BLOCK" || { echo "FAIL: FR chua tham chieu"; echo "$R"; RC=1; }
+  printf "# x\n${FM}## 1. JTBD\n- **FR-001**: a\n- **FR-001**: b\n## 10. Acceptance\n### AC-1 a · Maps to: FR-001 · Test: e2e\n- **Given** x\n- **When** y\n- **Then** z\n- **Assert** count(x)==0\n" > "$T/o.md"
+  R=$(lint_one "$T/o.md"); echo "$R" | grep -q 'FR-001 dinh nghia TRUNG' && echo "PASS: FR-ID trung -> WARN" || { echo "FAIL: FR trung LOT"; echo "$R"; RC=1; }
+  printf "# x\n${FM}## 10. Acceptance\n${ACB}" > "$T/p.md"
+  R=$(lint_one "$T/p.md"); echo "$R" | grep -q 'FR-' && { echo "FAIL: spec khong FR bi WARN FR"; RC=1; } || echo "PASS: spec khong co FR -> im lang"
   printf "# x\n${FM}## 10. Acceptance\n### AC-1 a · Test: e2e\n- Then he thong se assert quyen nguoi dung\n" > "$T/e.md"
   R=$(lint_one "$T/e.md"); echo "$R" | grep -q 'thieu dong Assert' && echo "PASS: khong nham 'assert' trong Then" || { echo "FAIL: nham assert trong Then -> false-pass"; RC=1; }
   printf "# x\n${FM}## 10. Acceptance\n### AC-1 a · Test: e2e\n- Then mo popup va bam nut Duyet\n- **Assert** status==1\n" > "$T/g.md"

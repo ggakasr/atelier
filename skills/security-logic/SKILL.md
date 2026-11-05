@@ -182,4 +182,4 @@ Nhận từ triage/build: "chỗ này có an toàn không?" → phân vùng + re
 - **Nền**: `ai-simple-product-dev` (#04 sync, #05 LOGIC/REQUEST, #06 tier, #08 enforcement, #12 coupling, `methodology/14`) — defer, KHÔNG chế lại.
 - **Cross-cutting**: rà code của build, doc của ba-flow-logic + ui-design-logic, dep của project.
 - Cổng máy: **`security-verify.sh`** (chặn review thiếu declared-coverage — wire pre-commit); secret-scan + doc-injection = mục 1e `pre-commit.hook.template`.
-- Template: `templates/security-review.md.template`.
+- Template: `security-review.md.template`.

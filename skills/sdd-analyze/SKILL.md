@@ -19,6 +19,11 @@ Soát chéo `spec.md` + `plan.md` + `tasks.md` + constitution **trước khi imp
 - **Constitution là bất khả thương lượng**: xung đột = CRITICAL, phải sửa spec/plan/tasks, không pha loãng hay diễn giải lại nguyên tắc. Muốn đổi nguyên tắc thì làm riêng bằng `sdd-constitution`.
 - Không bịa mục thiếu: thiếu thì báo đúng là thiếu. Dẫn ví dụ cụ thể, không nói chung chung.
 
+## Coverage gate (cơ giới, chạy trước)
+
+- Trước detection passes, chạy `bash <skill-dir>/scripts/coverage.sh specs/NNN-slug/spec.md specs/NNN-slug/tasks.md` (thêm `--plan plan.md` nếu muốn) và dán nguyên bảng + dòng tổng vào báo cáo; không ước lượng coverage bằng cảm nhận.
+- Kết quả script thắng phán đoán của LLM: UNCOVERED / UNKNOWN / UNMAPPED (exit 1) mặc định là finding Coverage gap, không được hạ xuống hay bỏ qua. Dùng `--warn-only` nếu chỉ cần bảng.
+
 ## Bước làm
 
 1. **Nạp tối thiểu** (progressive disclosure): spec (overview, FR, SC, user stories, edge cases); plan (kiến trúc/stack, data model, phases, ràng buộc); tasks (ID, mô tả, phase, đánh dấu [P], đường dẫn file); constitution (các câu MUST/SHOULD).
