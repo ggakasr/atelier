@@ -109,7 +109,8 @@ opus/high for thorough or security reviews.
 ```
 atelier/
 ├── README.md · NOTICE.md · LICENSE · .gitignore · .gitattributes
-├── install.ps1 · install.sh        install into ~/.claude with timestamped backups
+├── install.ps1 · install.sh        install into ~/.claude (hash manifest, timestamped backups)
+├── uninstall.ps1 · uninstall.sh    remove what the installer recorded, keep files you edited
 ├── global/CLAUDE.md                atelier block (workflow + skill-routing table), merged into CLAUDE.md
 ├── skills/<name>/SKILL.md          26 skills (+ references/, templates/, opt-in *-verify.sh)
 ├── personal/mkn-xu-ly-task/        project-specific skill, installed unless --no-personal
@@ -149,10 +150,21 @@ to `~/.claude/agents/` and `hooks/*` to `~/.claude/hooks/`. `global/CLAUDE.md` i
 copied: only the block between the `atelier:begin/end` markers is replaced, the rest of your
 `CLAUDE.md` stays. The same block is merged into `~/AGENTS.md` (Codex copy; created if missing,
 one-time migration if it has no markers), skipped with `--no-claude-md` / `-NoClaudeMd`. Before it replaces anything, it copies the old version to
-`~/.claude/atelier-backups/<yyyyMMdd-HHmmss>/`. It removes nothing else. It edits
+`~/.claude/atelier-backups/<yyyyMMdd-HHmmss>/`. It edits
 `settings.json` only with `--wire-hooks` / `-WireHooks`, which registers skill-router and
 git-guard (needs node). Restart Claude Code
 afterwards so it picks up the new agents.
+
+Upgrade and uninstall are hash-safe. Every installed file is recorded with its SHA-256 in
+`~/.claude/.atelier-manifest` (`install.ps1` and `install.sh` write the same format and can
+replace each other). Re-running the installer replaces only files you have not touched. A file
+you edited is kept, the new version is written next to it as `<file>.atelier-new` with a WARN,
+and `--force` / `-Force` overwrites it after a backup. Files removed from the repo are deleted
+the same way. So edit the repo copy, not the installed one. `./uninstall.sh` or
+`.\uninstall.ps1` (`--dry-run` / `-DryRun` first) removes only files still identical to the
+manifest, keeps your edited ones, and deletes empty folders. It leaves the `CLAUDE.md` /
+`AGENTS.md` block and the `settings.json` hooks alone unless you add `--remove-block` /
+`-RemoveBlock` (block only). With no manifest it refuses.
 
 To start a project, copy `project-template/` into the repo root, fill the `{{...}}` blanks in
 `CLAUDE.md`, and delete the doc folders you don't need.
