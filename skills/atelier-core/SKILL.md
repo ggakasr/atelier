@@ -67,7 +67,7 @@ escalate (this prevents cost creep). Taste questions (does it look right) are no
 show a before/after or a screenshot and ask the user one closed question.
 
 **Escalation ladder:** model sonnet → opus; effort low → medium → high → xhigh. Haiku jobs
-(`router`, `explorer`) go to sonnet first. Do not use fable. Start every job at the cheapest row of
+(`router`, `explorer`) go to sonnet first. The ladder stops at opus; do not use fable (the costliest tier) unless the user names it. Start every job at the cheapest row of
 the table above that fits. On a weak signal, move up exactly one step and re-run with the same
 brief plus the failure evidence. At most 2 steps up per task. After that, stop and tell the user in
 one line what was tried and what still fails.

@@ -198,4 +198,4 @@ Sửa xong → bump `last_verified`, kích lại design/build nếu cần. Ghi 1
 - **Nền**: `ai-simple-product-dev` (#04 sync, #05 LOGIC/REQUEST, #06 tier, #07 memory, #12 coupling) — defer.
 - **Pha sau**: `ui-design-logic` đọc ba-spec (user-ladder + flow) → design-spec.
 - **Pha vận hành**: `ui-ux-triage` đọc AC làm oracle; đẩy reverse handoff về đây.
-- Tài liệu chi tiết: `references/01..05`. Template: `templates/ba-spec.md.template`. Eval: `evals/evals.json`. **Cổng máy: `ba-verify.sh`** (chặn ba-spec thiếu test — wire vào pre-commit).
+- Tài liệu chi tiết: `references/01..05`. Template: `templates/ba-spec.md.template`. **Cổng máy: `ba-verify.sh`** (chặn ba-spec thiếu test — wire vào pre-commit).
