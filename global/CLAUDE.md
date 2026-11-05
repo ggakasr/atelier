@@ -37,6 +37,19 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 | Video, article, social post, campaign | `editorial-workflow` |
 | MKN v3 task/lỗi kèm ảnh, "làm theo quy trình" | `mkn-xu-ly-task` |
 | Claude usage this week, token/tiền tuần này | `week-usage` |
+| Write a feature spec / viết đặc tả tính năng | `sdd-specify` |
+| Làm rõ spec / hỏi lại yêu cầu | `sdd-clarify` |
+| Technical plan from a spec / lập plan kỹ thuật | `sdd-plan` |
+| Soát chất lượng yêu cầu (requirements checklist) | `sdd-checklist` |
+| Chia task theo user story / tasks.md | `sdd-tasks` |
+| Spec, plan, tasks có nhất quán không | `sdd-analyze` |
+| Implement theo tasks.md | `sdd-implement` |
+| Code đã khớp spec chưa / đóng khoảng trống | `sdd-converge` |
+| Nguyên tắc / hiến pháp dự án (constitution) | `sdd-constitution` |
+| Bug có bằng chứng: assess/fix/test + verdict (hard root-cause hunts stay `diagnosing-bugs`) | `sdd-bug` |
+| Ý tưởng mới: có nên làm không, go/kill | `sdd-assess` |
+
+Spec-first lane: `sdd-specify` → `sdd-clarify` → `sdd-plan` → `sdd-checklist` → `sdd-tasks` → `sdd-analyze` → `sdd-implement` → `sdd-converge`. Fuzzy or multi-user business need → `ba-flow-logic`; clear feature that wants `specs/NNN-slug/` → `sdd-specify`. `sdd-implement` still delegates the coding to `builder` (foreman rule).
 
 ## Foreman rule (main session = manager, not worker)
 - The main session talks to me, routes, decides and relays short reports. It does at most 2 quick read-only calls itself.

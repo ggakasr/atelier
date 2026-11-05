@@ -75,6 +75,7 @@ OK: installs, external messages, publish/deploy, push, or reading production dat
 | `decision-log` | new, inspired by BMAD-METHOD | Whoever does the work (no subagent) |
 | `course-correct` | new, inspired by BMAD-METHOD | `architect` (opus, high); main session asks you |
 | `elicit` | new, inspired by BMAD-METHOD | Main session inline; `architect` (opus, high) for heavy methods |
+| Spec-first lane (`sdd-specify`, `sdd-clarify`, `sdd-plan`, `sdd-checklist`, `sdd-tasks`, `sdd-analyze`, `sdd-implement`, `sdd-converge`, plus `sdd-constitution`, `sdd-bug`, `sdd-assess`) | adapted from github/spec-kit (MIT), see NOTICE.md | Main session leads; `sdd-implement` delegates coding to `builder` |
 | `mkn-xu-ly-task` (in `personal/`) | your own project skill, unchanged | As written in the skill |
 
 Each SKILL.md states its delegation in its body. Atelier deliberately does **not** set `model:`
@@ -109,7 +110,7 @@ atelier/
 ├── README.md · NOTICE.md · LICENSE · .gitignore · .gitattributes
 ├── install.ps1 · install.sh        install into ~/.claude with timestamped backups
 ├── global/CLAUDE.md                atelier block (workflow + skill-routing table), merged into CLAUDE.md
-├── skills/<name>/SKILL.md          14 skills (+ references/, templates/, opt-in *-verify.sh)
+├── skills/<name>/SKILL.md          25 skills (+ references/, templates/, opt-in *-verify.sh)
 ├── personal/mkn-xu-ly-task/        project-specific skill, installed unless --no-personal
 ├── agents/*.md                     router, explorer, builder, reviewer, architect
 ├── hooks/                          skill-router (UserPromptSubmit) + git-guard (PreToolUse) + wire.js

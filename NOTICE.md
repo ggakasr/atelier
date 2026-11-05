@@ -113,6 +113,16 @@ for any other purpose. See [TRADEMARK.md](TRADEMARK.md) for detailed guidelines.
 - Copyright line from the upstream license: `Copyright (c) 2026 Matt Pocock` (MIT License,
   full text in each `skills/<name>/LICENSE-mattpocock.md`).
 
+## 2c. github/spec-kit (MIT) (adapted and rewritten)
+
+- Source: https://github.com/github/spec-kit
+- What atelier adapts: the spec-first workflow behind the skills `sdd-specify`, `sdd-clarify`,
+  `sdd-plan`, `sdd-checklist`, `sdd-tasks`, `sdd-analyze`, `sdd-implement`, `sdd-converge`,
+  `sdd-constitution`, `sdd-bug` and `sdd-assess`.
+- Atelier changes: rewritten as Claude Code skills with new `description:` lines, atelier
+  routing and the builder delegation rule; not verbatim copies.
+- Copyright line from the upstream license: `Copyright GitHub, Inc.` (MIT License).
+
 ## 3. Atelier
 
 Atelier's own content (README, the new skills, agents, installers, templates) is © 2026

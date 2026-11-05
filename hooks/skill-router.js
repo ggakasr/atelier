@@ -13,6 +13,18 @@
 const RULES = [
   ['mkn-xu-ly-task', /\bmkn\b|l[aà]m theo quy tr[iì]nh/i],
   ['week-usage', /usage tu[aầ]n|week.?usage|token.*tu[aầ]n/i],
+  // spec-first lane (sdd-*): only specific phrases, never bare 'spec' / 'yêu cầu' / 'plan' / 'task' (those stay with ba-flow-logic, work-order)
+  ['sdd-implement', /\bimplement\b.{0,30}\btasks?(\.md)?\b|tasks\.md.{0,30}\bimplement|implement theo tasks|th[uự]c thi tasks?/i],
+  ['sdd-clarify', /\bclarify\b.{0,20}\b(spec|requirements?)\b|l[aà]m r[oõ] (spec|[dđ][aặ]c t[aả]|y[eê]u c[aầ]u)|h[oỏ]i l[aạ]i y[eê]u c[aầ]u|\bspec\b.{0,20}\bambigu/i],
+  ['sdd-checklist', /\b(requirements?|spec) checklist\b|checklist (y[eê]u c[aầ]u|spec|[dđ][aặ]c t[aả]|ch[aấ]t l[uư][oợ]ng y[eê]u c[aầ]u)|so[aá]t ch[aấ]t l[uư][oợ]ng y[eê]u c[aầ]u/i],
+  ['sdd-tasks', /\btasks\.md\b|\buser stor(y|ies)\b|chia task|task breakdown|break (it |this )?(down )?into tasks/i],
+  ['sdd-analyze', /\b(analy[sz]e|consisten\w*)\b.{0,30}\b(spec|plan|tasks)\b.{0,30}\b(spec|plan|tasks|consisten\w*)\b|nh[aấ]t qu[aá]n.{0,30}\b(spec|plan|tasks)\b|\b(spec|plan|tasks)\b.{0,30}nh[aấ]t qu[aá]n|cross.artifact/i],
+  ['sdd-converge', /\b(spec drift|converge)\b|\bcode\b.{0,30}\b(match|matches)\b.{0,15}\bspec\b|code.{0,20}kh[oớ]p.{0,10}spec|kh[oớ]p spec|[dđ][oó]ng kho[aả]ng tr[oố]ng/i],
+  ['sdd-constitution', /\bconstitution\b|hi[eế]n ph[aá]p|nguy[eê]n t[aắ]c d[uự] [aá]n|project principles/i],
+  ['sdd-assess', /\bgo\/kill\b|go.no.go|[dđ][aá]nh gi[aá] [yý] t[uư][oở]ng|\b(should we build|is it worth building|idea assessment)\b|c[oó] n[eê]n (l[aà]m|build|x[aâ]y)\b/i],
+  ['sdd-bug', /\bverdict\b|\b(assess|triage)\b.{0,20}\bbug\b|\bbug\b.{0,30}\b(evidence|verdict)\b|b[aằ]ng ch[uứ]ng.{0,20}\bbug\b|\bbug\b.{0,20}b[aằ]ng ch[uứ]ng/i],
+  ['sdd-plan', /\b(technical|tech|implementation) plan\b|l[aậ]p plan|plan k[yỹ] thu[aậ]t|k[eế] ho[aạ]ch k[yỹ] thu[aậ]t|\bplan\.md\b/i],
+  ['sdd-specify', /\bspecify\b|\b(write|draft|create)\b.{0,15}\bspec\b|\bfeature spec\b|\bspec\.md\b|[dđ][aặ]c t[aả]|(vi[eế]t|so[aạ]n|t[aạ]o) spec/i],
   ['docx', /\b(docx|word doc\w*)\b/i],
   ['pdf', /\bpdf\b/i],
   ['xlsx', /\b(xlsx|excel|spreadsheet)\b/i],
@@ -114,6 +126,42 @@ function selfTest() {
   t('làm theo quy trình mkn', 'mkn-xu-ly-task');
   t('hôm nay trời đẹp không', '');
   t('đổi tên biến a thành b', '');
+
+  // spec-first lane (sdd-*): positives
+  t('write a feature spec for the export button', 'sdd-specify');
+  t('viết đặc tả tính năng đăng nhập', 'sdd-specify');
+  t('clarify the spec before we plan', 'sdd-clarify');
+  t('làm rõ spec này giúp tôi', 'sdd-clarify');
+  t('create a technical plan from the spec', 'sdd-plan');
+  t('lập plan kỹ thuật cho tính năng này', 'sdd-plan');
+  t('requirements checklist for this spec', 'sdd-checklist');
+  t('checklist yêu cầu cho spec này', 'sdd-checklist');
+  t('generate tasks.md grouped by user story', 'sdd-tasks');
+  t('chia task theo user story', 'sdd-tasks');
+  t('analyze spec, plan and tasks for consistency', 'sdd-analyze');
+  t('spec plan tasks có nhất quán không', 'sdd-analyze');
+  t('implement the tasks in tasks.md', 'sdd-implement');
+  t('implement theo tasks.md', 'sdd-implement');
+  t('does the code match the spec, close the gaps', 'sdd-converge');
+  t('code đã khớp spec chưa', 'sdd-converge');
+  t('write the project constitution', 'sdd-constitution');
+  t('đặt nguyên tắc dự án', 'sdd-constitution');
+  t('go/kill this new idea', 'sdd-assess');
+  t('đánh giá ý tưởng này có nên làm không', 'sdd-assess');
+  t('assess this bug with evidence and give a verdict', 'sdd-bug');
+  t('bug này có bằng chứng, cho verdict', 'sdd-bug');
+  // anti-hijack: generic words keep their old owners and never pull in sdd-*
+  const tn = (prompt, bad) => {
+    const out = handle(JSON.stringify({ prompt }));
+    if (!out.includes(bad)) console.log(`PASS: no ${bad} - ${prompt}`);
+    else { console.log(`FAIL: '${prompt}' must not hint ${bad}, got: ${out}`); rc = 1; }
+  };
+  tn('yêu cầu của khách chưa rõ lắm', 'sdd-');
+  tn('phân tích nghiệp vụ và yêu cầu quản lý kho', 'sdd-');
+  tn('the spec is outdated, please update the plan', 'sdd-');
+  tn('làm đi', 'sdd-');
+  tn('this function crashes, find the root cause', 'sdd-');
+  tn('review the diff', 'sdd-');
 
   const long = 'spec flow review security crash chart pdf slow implement ui layout';
   const out = handle(JSON.stringify({ prompt: long }));
