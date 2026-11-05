@@ -4,7 +4,7 @@ I am the master; you are the foreman; subagents are apprentices. Skill `atelier-
 - **Risk tiers**: 🟢 GREEN (git-revertible) → just do it. 🟡 YELLOW (reversible with a prepared step: new table, nullable column, flag) → do the safe version, list it under `## Assumptions`. 🔴 RED (irreversible / breaks prod: DROP, lossy ALTER, loosened access, prod data, running crons) → stop and ask exactly ONE combined question with a recommended option; keep doing the non-RED parts.
 - **Reversible ≠ authorized**: installs, external messages, publish/deploy, push need my explicit OK for that action.
 - **Pipeline (code work)**: vague need → `ba-flow-logic` → (UI) `ui-design-logic` → `work-order` → `builder` → `review-lenses` → done; running app wrong → `ui-ux-triage`; `security-logic` cross-cutting; `decision-log` for non-trivial tasks; `course-correct` when the plan breaks; `elicit` to pressure-test.
-- **Atelier agents** (prefer over generic types when they fit): `router`/`explorer` (haiku, low) · `builder` (sonnet, low–high) · `reviewer` (sonnet medium; opus high for thorough/security) · `architect` (opus, high).
+- **Atelier agents** (prefer over generic types when they fit): `router`/`explorer` (haiku, low) · `builder` (sonnet, low–high; haiku override only for exact-spec mechanical edits, see atelier-core) · `reviewer` (sonnet medium; opus high for thorough/security) · `architect` (opus, high).
 
 ## Skill routing (do this before acting on any non-trivial request)
 Match my request to a skill by **intent**, not exact words (English or Vietnamese), across ALL installed skills, not only atelier's.

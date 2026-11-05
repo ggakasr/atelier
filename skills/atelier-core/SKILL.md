@@ -35,6 +35,7 @@ in `methodology/` (index: [methodology/README.md](methodology/README.md)).
 |---|---|---|---|
 | Route context, score tier | `router` | haiku | low |
 | Find files, read-only lookup | `explorer` | haiku | low |
+| Mechanical edit with an exact spec (see rule below) | `builder` (override) | haiku | low |
 | Small, clear or mechanical edit | `builder` | sonnet | low |
 | Typical feature or bug fix from a work order | `builder` | sonnet | medium |
 | Multi-module or tricky build | `builder` | sonnet | high |
@@ -42,6 +43,8 @@ in `methodology/` (index: [methodology/README.md](methodology/README.md)).
 | Thorough review, security, RED-adjacent diff | `reviewer` (override) | opus | high |
 | Design-spec, architecture, ADR, hard debugging, course correction | `architect` | opus | high |
 | Questions about Claude Code itself | `claude-code-guide` | default | default |
+
+Haiku edit tier (cheap, but it only follows instructions, it does not judge): use it only when ALL hold: (1) the foreman gives the exact file(s) and exact change (before/after text or regex), so the apprentice decides nothing; (2) at most ~3 files; (3) a machine check the foreman re-runs itself (test, grep, diff, lint); (4) GREEN tier only, reversible by git. Fits: bulk rename, repeat a field/pattern, doc or table edits from a template, run a command and summarise, grep-and-collect, format conversion. Not for new logic, bugs with unknown cause, or anything needing judgement. On a weak signal go haiku → sonnet first (ladder below, max 2 steps).
 
 Rules for briefs: the apprentice starts cold. Give it the goal, the exact paths, the constraints,
 the risk tier, and what to return. A written `work-order` is the preferred brief for anything
