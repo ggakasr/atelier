@@ -13,6 +13,9 @@ ttl_days: {{90 cho flow hay đổi | 180 cho domain ổn định}}
 - **Job**: Khi `<tình huống>`, `<loại user>` muốn `<động lực>`, để `<outcome>`.
 - **Vì sao làm bây giờ**: `<đau hiện tại / cơ hội>`
 - **Đo thành công bằng**: `<metric tổng>` (chi tiết từng nghiệp vụ ở §8)
+- **Requirements** (ID ổn định, KHÔNG đánh số lại; work-order trích các ID này):
+  - **FR-001**: `<hệ thống/user phải làm được gì — WHAT, không HOW>` (NV1)
+  - **FR-002**: `<...>` (NV2)
 
 ## 2. User registry (ĐIỂM XUẤT PHÁT — mọi thứ sau phục vụ 1 user cụ thể)
 | User (role/tier) | Là ai | Vòng đời (public/mới/quen/power) | Thiết bị/bối cảnh chính |
@@ -71,10 +74,12 @@ ttl_days: {{90 cho flow hay đổi | 180 cho domain ổn định}}
 - **OUT (sau / không làm)**: `<NV3 để phase 2; không làm đa kho>`
 
 ## 8. Success metric (definition-of-done đo được, mỗi nghiệp vụ)
-| Nghiệp vụ | Metric | Ngưỡng đạt |
-|---|---|---|
-| NV1 | thời gian tạo 1 đơn | ≤ 60s cho khách quen |
-| NV2 | đơn chờ duyệt tồn đọng | không đơn nào >24h chưa xử lý |
+| ID | Nghiệp vụ | Metric | Ngưỡng đạt |
+|---|---|---|---|
+| SC-001 | NV1 | thời gian tạo 1 đơn | ≤ 60s cho khách quen |
+| SC-002 | NV2 | đơn chờ duyệt tồn đọng | không đơn nào >24h chưa xử lý |
+
+> `SC-###` ổn định, không đánh số lại (cùng luật với `FR-###`).
 
 ## 9. Rules & Invariants (luôn đúng — triage gọi vi phạm = invariant break)
 | # | Rule | Edge case |
@@ -103,6 +108,8 @@ ttl_days: {{90 cho flow hay đổi | 180 cho domain ổn định}}
 ## 11. Assumptions (fail-closed) / Open questions (chỉ RED)
 - **Assumptions** (tự quyết khi thiếu info): `<vd: 1 đơn 1 khách; giá chốt lúc duyệt, không lúc tạo>`
 - **Open (RED — chờ user)**: `<vd: có cho phép sửa đơn sau khi duyệt? — ảnh hưởng R2, cần user chốt>`
+- **[NEEDS CLARIFICATION]** (TỐI ĐA 3 điểm mở trong cả spec; còn lại chọn mặc định ghi ở Assumptions): `<câu hỏi — phương án khuyến nghị + 1 dòng lý do>`
+> Hỏi user: tối đa 5 câu, từng câu một, mỗi câu kèm khuyến nghị (user trả lời "ok" là đủ); mỗi câu trả lời ghi vào spec ngay.
 
 ## History
 - v1 ({{YYYY-MM-DD}}): khởi tạo — `<phạm vi>`

@@ -25,7 +25,9 @@ Interpretation: <one line>
 ## Capabilities
 
 - **C-1** intent: <what, not how> · success: <observable check>
+  - Independent test: <how C-1 alone can be demonstrated without the other capabilities>
 - **C-2** intent: ... · success: ...
+  - Independent test: ...
 
 ## Acceptance
 
@@ -46,8 +48,10 @@ Interpretation: <one line>
 
 ## Tasks
 
-1. `<path>` — <concrete action>
-2. `<path>` — <concrete action>
+<!-- Each task cites the ids it serves: FR-/SC- (ba-spec), AC-, C-. Optional [P] = parallel-safe (different files, no dependency on an unfinished task). Convergence tasks are appended at the end only, never renumber. -->
+
+1. `<path>` — <concrete action> (serves: C-1, FR-001)
+2. [P] `<path>` — <concrete action> (serves: C-2, AC-1, SC-001)
 
 ## Done when
 

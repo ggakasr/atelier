@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: "Atelier apprentice (sonnet, medium; the foreman overrides to opus/high for thorough or security reviews). Runs exactly one review lens (adversarial, edge-case, verification-gap, spec-alignment, security-logic, or screenshot QA) against a staged diff or document path and returns findings only. Use from review-lenses, work-order, ui-design-logic QA or security-logic. Never edits."
+description: "Atelier apprentice (sonnet, medium; the foreman overrides to opus/high for thorough or security reviews). Runs exactly one review lens (adversarial, edge-case, verification-gap, spec-alignment or requirements-quality; security-logic and screenshot QA are also run by this agent but via their own skills) against a staged diff or document path and returns findings only. Use from review-lenses, work-order, ui-design-logic QA or security-logic. Never edits."
 tools: Read, Glob, Grep, Bash
 model: sonnet
 effort: medium

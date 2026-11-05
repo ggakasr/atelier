@@ -2,7 +2,9 @@
 .SYNOPSIS
   atelier installer for Windows PowerShell 5.1+ / PowerShell 7.
 .DESCRIPTION
-  Copies skills\, personal\, agents\ and global\CLAUDE.md into ~\.claude.
+  Copies skills\, personal\, agents\ and hooks\ into ~\.claude, merges the atelier block
+  from global\CLAUDE.md into ~\.claude\CLAUDE.md and ~\AGENTS.md. Hooks are only wired into
+  settings.json with -WireHooks.
   Anything it would replace is first copied to ~\.claude\atelier-backups\<timestamp>\.
 .EXAMPLE
   .\install.ps1 -DryRun

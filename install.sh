@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # atelier installer (macOS / Linux / Git Bash on Windows).
-# Copies skills/, personal/, agents/ and hooks/ into ~/.claude and merges the atelier block into CLAUDE.md.
+# Copies skills/, personal/, agents/ and hooks/ into ~/.claude and merges the atelier block into CLAUDE.md and ~/AGENTS.md.
+# Hooks are only wired into settings.json with --wire-hooks.
 # Anything it would replace is first copied to ~/.claude/atelier-backups/<timestamp>/.
 #
 # Usage: ./install.sh [--dry-run] [--no-personal] [--no-claude-md] [--wire-hooks] [--claude-home DIR]

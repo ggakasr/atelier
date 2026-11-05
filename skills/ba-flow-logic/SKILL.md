@@ -134,6 +134,8 @@ Flow trượt ≥1 tiêu chí → Optimizer trả về Suggester sửa, KHÔNG �
 
 **Elicitation (solo+AI):**
 - Hỏi **1 lượt gộp**, fail-closed: thiếu info → chọn giả định an toàn + ghi **Assumptions**, KHÔNG hỏi lặt vặt. Chỉ **RED** (sửa/xoá AC-flow mà downstream đang phụ thuộc) mới dừng hỏi đúng 1 câu gộp.
+- **Ngân sách câu hỏi** (atelier): spec có tối đa **3** điểm `[NEEDS CLARIFICATION]` còn mở; mọi chỗ khác chọn mặc định hợp lý và ghi vào **Assumptions**. Khi buộc phải hỏi user: tối đa **5** câu, hỏi **từng câu một**, mỗi câu kèm **phương án khuyến nghị + 1 dòng lý do** (user chỉ cần trả lời "ok"), và **ghi câu trả lời vào spec ngay** — không để dồn cuối.
+- **ID truy vết** (atelier): mỗi requirement có ID `FR-###`, mỗi success criterion có `SC-###` (§1/§8 ba-spec). ID ổn định, **không đánh số lại**, work-order trích đúng các ID này.
 
 ---
 

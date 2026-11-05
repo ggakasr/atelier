@@ -1,6 +1,6 @@
 ---
 name: review-lenses
-description: "Review a diff, branch, uncommitted changes, spec or document through independent lenses (adversarial, edge-case, verification-gap, spec-alignment) run as parallel reviewer subagents, then triage every finding. Use when the user says review / soát / check this diff / review PR, or a work order sets review depth quick or thorough. Not for applying feedback from an earlier review (that is a change); never run uninvited on your own edits outside a work order."
+description: "Review a diff, branch, uncommitted changes, spec or document through independent lenses (adversarial, edge-case, verification-gap, spec-alignment, requirements-quality) run as parallel reviewer subagents, then triage every finding. Use when the user says review / soát / check this diff / review PR, or a work order sets review depth quick or thorough. Not for applying feedback from an earlier review (that is a change); never run uninvited on your own edits outside a work order."
 ---
 
 # Review Lenses
@@ -32,11 +32,12 @@ the foreman's judgement.
 | **adversarial** | [references/adversarial.md](references/adversarial.md) | anything | re-check before returning empty |
 | **edge-case** | [references/edge-case.md](references/edge-case.md) | code, behavioural specs | valid |
 | **verification-gap** | [references/verification-gap.md](references/verification-gap.md) | code with behaviour change | valid ("No verification gaps found.") |
+| **requirements-quality** | [references/requirements-quality.md](references/requirements-quality.md) | a ba-spec, work order or design-spec (tests the spec, not the code) | valid |
 
 - **quick** = spec-alignment only (or adversarial when there is no spec).
-- **thorough** = all four in parallel.
+- **thorough** = all four code lenses in parallel, plus requirements-quality when a spec or work order is in scope.
 - When the user names lenses, run exactly those.
-- Security paths touched → also run `security-logic`.
+- Security paths touched → also run `security-logic` (its own skill, not a lens file here).
 
 Announce the plan in one line (content class, lenses), then launch every lens before reading
 any result.

@@ -30,12 +30,12 @@ Use [templates/work-order.md](templates/work-order.md). Fields:
 |---|---|
 | **Intent** (frozen) | The user's words plus one-line interpretation. Once the user approves, nothing changes it except the user. |
 | **Why** | The problem in one or two sentences. |
-| **Capabilities** | `C-1`, `C-2`, ... Each has an *intent* (what, not how) and a *success* check. Never renumber. |
+| **Capabilities** | `C-1`, `C-2`, ... Each has an *intent* (what, not how), a *success* check and an `Independent test:` line (how it can be shown alone). Never renumber. |
 | **Acceptance** | Given/When/Then. If a ba-spec exists, cite its AC IDs instead of rewriting them. |
 | **Constraints** | Only constraints that rule something out. A constraint that rules nothing out is decoration, so cut it. |
 | **Non-goals** | At least one. An empty list invites the builder to fill the gap. |
 | **Context** | The exact files the builder must read first (specs, module CLAUDE.md, the code to touch). |
-| **Tasks** | Ordered by dependency. Each has a file path and a concrete action. |
+| **Tasks** | Ordered by dependency. Each has a file path, a concrete action, and cites the `FR-` / `SC-` / `AC-` / `C-` ids it serves. Optional `[P]` marks a parallel-safe task (different files, no dependency on an unfinished task). |
 | **Done when** | Required: 3-5 checkable lines, each with how it is verified, plus the `Verification command(s):` line (tests, lint, type-check, a manual step). The order is not ready without them. |
 | **Risk tier** | GREEN / YELLOW / RED, with the reason. RED parts list the one question that was asked and its answer. |
 | **Open questions / Assumptions** | Anything investigation could not settle. Never invent an answer. |
@@ -62,7 +62,7 @@ Estimate from what you already know. Don't do extra reading just to choose a rou
 |---|---|---|
 | **none** | Doc-only, config-only, trivial GREEN oneshot | Nothing. Record `review: none`. |
 | **quick** (default) | Normal GREEN/YELLOW work | One `reviewer` (sonnet, medium): checks the diff against the acceptance criteria and the repo's CLAUDE.md rules, and looks for bugs. |
-| **thorough** | Any RED part; auth, payment, data or permissions; more than ~300 changed lines; or the user asks | In parallel: adversarial, edge-case, verification-gap and spec-alignment lenses (`reviewer` with model opus, effort high). Add `security-logic` when security paths are touched. |
+| **thorough** | Any RED part; auth, payment, data or permissions; more than ~300 changed lines; or the user asks | In parallel: adversarial, edge-case, verification-gap and spec-alignment lenses, plus requirements-quality when a ba-spec or work order is in scope (`reviewer` with model opus, effort high). Add `security-logic` when security paths are touched. |
 
 ## 5. After review: route each verified finding
 
@@ -76,6 +76,14 @@ Triage happens in the main session (see `review-lenses/references/triage.md`):
   `docs/work-orders/deferred.md`.
 
 Cap the loop at **3** plan amendments. After that, stop and ask the user.
+
+**Convergence (optional, append-only).** To compare the built result with the spec, classify
+each gap as `missing | partial | contradicts | unrequested` (see
+`review-lenses/references/spec-alignment.md`). A done claim or a ticked box is not evidence:
+check the code and the proof. Each gap becomes a **new task appended at the end of Tasks**,
+citing the FR/SC id and the gap type. Never rewrite or renumber existing tasks or the frozen
+Intent. Appending tasks counts toward the cap of 3 amendments. Nothing missing → change
+nothing and report `converged`.
 
 ## 6. Close
 
