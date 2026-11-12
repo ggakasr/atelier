@@ -127,7 +127,7 @@ else
   echo "atelier: left in place - the atelier block in $CLAUDE_HOME/CLAUDE.md and $AGENTS_MD,"
   echo "         and the hook entries in $CLAUDE_HOME/settings.json (they point at ~/.claude/hooks/*, now gone)."
   echo "         Strip the block with: ./uninstall.sh --remove-block   (only the text between the atelier:begin/end markers)."
-  echo "         Remove the hooks by hand: delete the skill-router.js, skill-gap.sh, foreman-nudge.sh and git-guard.sh entries under \"hooks\" in settings.json."
+  echo "         Remove the hooks by hand: delete the skill-router.js, skill-gap.sh, foreman-nudge.sh, git-guard.sh and giveup-guard.sh entries under \"hooks\" in settings.json."
 fi
 
 echo "atelier: $n_removed file(s) removed, $n_kept kept (edited by you), $n_missing already gone."

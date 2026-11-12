@@ -4,6 +4,14 @@ Format follows Keep a Changelog. Versions follow the `VERSION` file.
 
 ## [Unreleased]
 
+### Added
+- `reframe` skill: replace easy/hard labels with a smallest experiment, list at least 3 approaches
+  (one flipping a constraint), give up only with the blocker report format. Never overrides safety refusals.
+- `hooks/giveup-guard.sh` (Stop hook): blocks once on an evidence-free feasibility give-up, fail-open,
+  skips safety refusals; wired by `wire.js` (`--wire-hooks`); `scripts/selftest-giveup-guard.sh`, run in CI. Min reply length is 30 (override `ATELIER_GIVEUP_MIN`): the work order's "<200" conflicted with its own
+  41-char acceptance example. Wide EN+VN safety markers win over give-up phrases.
+- Global rule "Proactive thinking (no premature give-up)", `reframe` routing row and skill-router keywords.
+
 ## [0.1.0] - baseline
 
 ### Added

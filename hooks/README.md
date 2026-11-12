@@ -20,6 +20,19 @@ After 8 in a row with no subagent call it adds a `[foreman]` reminder: delegate 
 A subagent call resets the count. Change the threshold with `ATELIER_FOREMAN_N`. It runs after
 every tool call, so it adds a small delay per call. Test: `sh hooks/foreman-nudge.sh --self-test`.
 
+## giveup-guard.sh (Stop)
+
+Catches a final answer that gives up on a feasibility problem ("cannot be done", "too complex",
+"không làm được", "quá phức tạp" ...) with no evidence, and blocks it once so the model tries other
+approaches (skill `reframe`) before saying no. It blocks only when all three hold: a high-confidence
+give-up phrase matches, the text has no evidence (code fence, "tried"/"đã thử" list, error quote,
+`file:line`, "blocker"/"chặn ở"), and no safety marker (policy, unsafe, harmful, not allowed,
+permission, malware, illegal, dangerous, "unable to help/assist", an toàn, bất hợp pháp, không thể giúp, chính sách, quyền and more; safety markers always win). Safety refusals are never touched.
+Design: one retry only (`stop_hook_active` true or "true" => allow), replies under 30 characters are skipped
+(change with `ATELIER_GIVEUP_MIN`; the work order's "<200" conflicted with its own 41-char acceptance example, so 30 is used), and it fails open: bad input, a missing node or a transcript it
+cannot read all mean exit 0 with no output. It reads `last_assistant_message`, else the text of the LAST assistant entry in `transcript_path` (no text there => allow). Needs sh and node. Wired as a `Stop` hook by `--wire-hooks`.
+Test: `bash scripts/selftest-giveup-guard.sh`.
+
 ## skill-gap.sh (SessionStart)
 
 Lists skills installed in `~/.claude/skills` that have no row in the `CLAUDE.md` routing table and

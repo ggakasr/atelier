@@ -28,6 +28,7 @@ Match my request to a skill by **intent**, not exact words (English or Vietnames
 | Security, secrets, auth, CVE, prompt injection | `security-logic` |
 | Audit the whole system / đánh giá toàn diện, kiểm thử toàn bộ, hệ thống đã tốt chưa | `system-audit` |
 | Plan no longer works, pivot, đổi hướng | `course-correct` |
+| Claude says can't / too hard / từ chối / không làm được / bí đường / reframe / thử hướng khác | `reframe` |
 | Phản biện, pre-mortem, red team, what could go wrong | `elicit` |
 | Resume an earlier task, why was X decided | `decision-log` |
 | New repo, docs lệch code, AI bịa tên hàm, onboarding | `atelier-core` |
@@ -58,6 +59,14 @@ Spec-first lane: `sdd-specify` → `sdd-clarify` → `sdd-plan` → `sdd-checkli
 - A `[foreman]` line from the hook means the main session has been doing the work itself. Stop, delegate the next chunk, say so in one line.
 - **Weak run = verifiable signal, never my taste**: failing command/test, "done" with no proof, a failed "Done when" check, scope drift, invented names, same error twice, or a blocking reviewer finding. Only then move one step up (sonnet → opus; effort low → medium → high → xhigh), max 2 steps, then stop and tell me what still fails. No signal = no escalation. Details in `atelier-core` ("Weak run and escalation").
 - **Session hygiene**: when the topic changes, the work becomes its own branch or PR, or the context is heavy or has been summarised, say so in one line and offer a fresh session. Keep decisions in the task's decision-log and work orders so a fresh session restarts cheaply.
+
+## Proactive thinking (no premature give-up)
+- Never label work "easy" or "hard" and then only confirm the label. Ask what must be true, then run the smallest experiment.
+- Before settling on a "no", list at least 3 different approaches, one of which flips a constraint (partial delivery, another tool, redefine "done", drop an assumption).
+- When blocked, ask "why" three times, then split the task and finish the part that is not blocked.
+- Give up only with the blocker format: tried A, B, C (with evidence) → blocked where → what unlocks it → what I must decide.
+- Separate a real blocker (safety, permission, physics) from a false one (missing info, untried approach); a false blocker is not a reason to stop.
+- Safety carve-out: this never overrides a safety, policy or permission refusal. Procedure in skill `reframe`; a Stop hook (`giveup-guard`) forces one retry on an evidence-free give-up.
 
 ## Skill upkeep
 - **Capture**: if I do the same multi-step procedure for the 2nd or 3rd time, or a clearly systematic method emerges while solving a problem, say so in one line at the end of the turn and offer to turn it into a skill with `skill-creator`. Create nothing until I say yes. Not for one-offs; never repeat an offer I declined.

@@ -37,6 +37,8 @@ jobs:
             echo "== $s"
             bash "$s" --self-test
           done
+          echo "== scripts/selftest-giveup-guard.sh"
+          bash scripts/selftest-giveup-guard.sh
 
       - name: Install/uninstall round trip (bash)
         if: runner.os != 'Windows'

@@ -43,6 +43,7 @@ const RULES = [
   ['pr', /\bpr\b.*\b(body|description|title|write|draft)\b|\b(write|draft|vi[eế]t|so[aạ]n)\b.*\b(pr|pull request)\b|m[oô] t[aả] pr/i],
   ['handoff', /\bhandoff\b|b[aà]n giao|new session|session m[oớ]i|continue in a new/i],
   ['course-correct', /[dđ][oổ]i h[uư][oớ]ng|k[eé]o kh[oô]ng [oổ]n|\b(pivot|course.correct)\b|plan (kh[oô]ng|no longer)/i],
+  ['reframe', /t[uừ] ch[oố]i|kh[oô]ng l[aà]m [dđ][uư][oợ]c|b[ií] [dđ][uư][oờ]ng|th[uử] h[uư][oớ]ng kh[aá]c|\breframe\b|\b(can.?t do|cannot do|too hard|too complex|gave up|giving up|you refused|refuses?)\b/i],
   ['elicit', /ph[aả]n bi[eệ]n|soi k[yỹ]|\b(pre-mortem|red team|what could go wrong)\b/i],
   ['decision-log', /ti[eế]p t[uụ]c task|v[iì] sao quy[eế]t [dđ][iị]nh|why did we decide/i],
   ['atelier-core', /docs? l[eệ]ch|\b(hallucinat\w*|onboard\w*)\b|b[iị]a t[eê]n|context (qu[aá] )?d[aà]i/i],
@@ -126,6 +127,10 @@ function selfTest() {
   t('làm bản tin tuần này', 'ban-tin-tuan');
   t('quét zalo tuần này', 'quet-zalo-ban-tin');
   t('làm theo quy trình mkn', 'mkn-xu-ly-task');
+  t('Claude says it cannot do this, too hard', 'reframe');
+  t('Claude từ chối, bảo không làm được', 'reframe');
+  t('bí đường rồi, thử hướng khác đi', 'reframe');
+  t('reframe this problem', 'reframe');
   t('hôm nay trời đẹp không', '');
   t('đổi tên biến a thành b', '');
 

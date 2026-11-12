@@ -135,7 +135,7 @@ if ($RemoveBlock) {
   Write-Host "atelier: left in place - the atelier block in $ClaudeHome\CLAUDE.md and $AgentsMd,"
   Write-Host "         and the hook entries in $ClaudeHome\settings.json (they point at ~/.claude/hooks/*, now gone)."
   Write-Host "         Strip the block with: .\uninstall.ps1 -RemoveBlock   (only the text between the atelier:begin/end markers)."
-  Write-Host "         Remove the hooks by hand: delete the skill-router.js, skill-gap.sh, foreman-nudge.sh and git-guard.sh entries under `"hooks`" in settings.json."
+  Write-Host "         Remove the hooks by hand: delete the skill-router.js, skill-gap.sh, foreman-nudge.sh, git-guard.sh and giveup-guard.sh entries under `"hooks`" in settings.json."
 }
 
 Write-Host "atelier: $nRemoved file(s) removed, $nKept kept (edited by you), $nMissing already gone."

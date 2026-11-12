@@ -72,6 +72,7 @@ function wireSettings() {
   add('SessionStart', null, 'sh ~/.claude/hooks/skill-gap.sh');
   add('PostToolUse', null, 'sh ~/.claude/hooks/foreman-nudge.sh');
   add('PreToolUse', 'Bash', 'sh ~/.claude/hooks/git-guard.sh');
+  add('Stop', null, 'sh ~/.claude/hooks/giveup-guard.sh');
   backup(target);
   fs.writeFileSync(target, JSON.stringify(s, null, 2) + '\n');
   console.log(`atelier hooks registered in ${target}`);
