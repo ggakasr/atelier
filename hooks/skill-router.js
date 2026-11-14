@@ -37,7 +37,7 @@ const RULES = [
   ['deep-research', /nghi[eê]n c[uứ]u|\b(deep research|research report)\b/i],
   ['security-logic', /b[aả]o m[aậ]t|l[oỗ] h[oổ]ng|\b(security|secrets?|cve|owasp|injection)\b/i],
   ['ui-ux-triage', /b[aấ]m kh[oô]ng [dđ][uư][oơợ]c|kh[oô]ng b[aấ]m [dđ][uư][oơợ]c|n[uú]t .*(l[oỗ]i|kh[oô]ng)|kh[oô]ng [aă]n|sai s[oố]|l[eệ]ch|\bnot working\b|doesn.t work|kh[oô]ng ho[aạ]t [dđ][oộ]ng|sai d[uữ] li[eệ]u|screenshot/i],
-  ['ui-design-logic', /\b(ui|ux|redesign|dashboard|landing|layout|make it pretty)\b|giao di[eệ]n|m[aà]n h[iì]nh|m[aà]n n[aà]y (x[aấ]u|r[oố]i)|th[eê]m m[aà]n|[dđ][eẹ]p h[oơ]n|nh[iì]n nh[uư] ai/i],
+  ['ui-design-logic', /\b(ui|ux|redesign|dashboard|landing|layout|make it pretty)\b|giao di[eệ]n|m[aà]n h[iì]nh|m[aà]n n[aà]y (x[aấ]u|r[oố]i)|th[eê]m m[aà]n|[dđ][eẹ]p h[oơ]n|nh[iì]n nh[uư] ai|\b(modern css|baseline|container quer(y|ies)|view transitions?|popover|dialog element)\b|web hi[eệ]n [dđ][aạ]i|:has\(|\b(improve|moderni[sz]e|upgrade|audit|refresh|revamp|review|clean up).{0,40}\b(front.?end|css|html|web ?app)\b|(c[aả]i thi[eệ]n|n[aâ]ng c[aấ]p|hi[eệ]n [dđ][aạ]i h[oó]a|l[aà]m m[oớ]i|so[aá]t|ki[eể]m tra|[dđ][aá]nh gi[aá]).{0,40}\b(front.?end|css|html)\b|(front.?end|css|html).{0,30}(c[uũ] qu[aá]|c[uũ]\b|l[oỗ]i th[oờ]i|hi[eệ]n [dđ][aạ]i)|hi[eệ]n [dđ][aạ]i.{0,30}(front.?end|css|html)/i],
   ['diagnosing-bugs', /\b(bug|broken|crash(es|ed)?|exception|stack ?trace|regression|root cause|memory leak|race condition|flaky|slow)\b|nguy[eê]n nh[aâ]n|ch[aậ]m|treo/i],
   ['tdd', /\b(tdd|test.first|red.green|failing test)\b|vi[eế]t test tr[uư][oớ]c/i],
   ['pr', /\bpr\b.*\b(body|description|title|write|draft)\b|\b(write|draft|vi[eế]t|so[aạ]n)\b.*\b(pr|pull request)\b|m[oô] t[aả] pr/i],
@@ -100,6 +100,9 @@ function selfTest() {
   t('man nay xau qua, sua lai di', 'ui-design-logic');
   t('màn hình đăng nhập nhìn như AI làm', 'ui-design-logic');
   t('thêm màn hình thống kê', 'ui-design-logic');
+  t('use container queries instead of media queries', 'ui-design-logic');
+  t('replace the custom popover with modern css', 'ui-design-logic');
+  t('viết web hiện đại, đừng dùng code cũ', 'ui-design-logic');
   t('nút lưu bấm không được', 'ui-ux-triage');
   t('số liệu hiển thị sai so với dữ liệu', 'ui-ux-triage');
   t('bảng bị lệch trên điện thoại', 'ui-ux-triage');
@@ -157,6 +160,24 @@ function selfTest() {
   t('đánh giá ý tưởng này có nên làm không', 'sdd-assess');
   t('assess this bug with evidence and give a verdict', 'sdd-bug');
   t('bug này có bằng chứng, cho verdict', 'sdd-bug');
+  // ui-design-logic audit-existing lane: positives + anti-hijack
+  t('xem qua dự án của tôi xem có thể cải thiện frontend không', 'ui-design-logic');
+  t('làm CSS hiện đại hơn cho dự án này', 'ui-design-logic');
+  t('dự án này frontend cũ quá, nâng cấp giúp', 'ui-design-logic');
+  t('review my project and improve the frontend', 'ui-design-logic');
+  t('xem qua du an cua toi, co the cai thien frontend khong', 'ui-design-logic');
+  t('lam css hien dai hon cho du an nay', 'ui-design-logic');
+  t('audit the html and css of this web app', 'ui-design-logic');
+  {
+    const first = (p) => (/skills: ([^,.]*)/.exec(handle(JSON.stringify({ prompt: p }))) || [])[1];
+    const f = first('review my project and improve the frontend');
+    if (f === 'ui-design-logic') console.log('PASS: ui-design-logic is first for review+improve frontend');
+    else { console.log(`FAIL: first hit was ${f}`); rc = 1; }
+  }
+  t('review this PR', 'review-lenses');
+  t('soát diff này', 'review-lenses');
+  t('fix the crash in the API', 'diagnosing-bugs');
+  t('review backend code', 'review-lenses');
   // anti-hijack: generic words keep their old owners and never pull in sdd-*
   const tn = (prompt, bad) => {
     const out = handle(JSON.stringify({ prompt }));
@@ -169,6 +190,11 @@ function selfTest() {
   tn('làm đi', 'sdd-');
   tn('this function crashes, find the root cause', 'sdd-');
   tn('review the diff', 'sdd-');
+  for (const p of ['review this PR', 'soát diff này', 'fix the crash in the API', 'review backend code', 'review the spec']) {
+    const out = handle(JSON.stringify({ prompt: p }));
+    if (!out.includes('ui-design-logic')) console.log(`PASS: no ui-design-logic - ${p}`);
+    else { console.log(`FAIL: '${p}' must not hint ui-design-logic, got: ${out}`); rc = 1; }
+  }
 
   // system-audit: positives
   t('run a full audit of the whole system', 'system-audit');

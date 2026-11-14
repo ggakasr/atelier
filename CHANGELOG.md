@@ -5,6 +5,17 @@ Format follows Keep a Changelog. Versions follow the `VERSION` file.
 ## [Unreleased]
 
 ### Added
+- `ui-design-logic` reference 09 (modern web platform): Baseline fallback policy, legacy-to-modern table,
+  shadcn-wins conflict rule, anti-patterns; pointer in SKILL.md and skill-router keywords. Ideas inspired by
+  GoogleChrome/modern-web-guidance (CC-BY 4.0 guides, Apache-2.0 code); wording is original.
+  Optional live lookup via `skills/ui-design-logic/modern-web.sh` (search / retrieve / advisory scan, `--strict`
+  opt-in gate): wraps `npx modern-web-guidance@1.0.0` with telemetry forced off, untrusted-output fence,
+  no install/update/set-*, skip-with-exit-0 without node>=22. Offline `--self-test` wired into CI.
+- `ui-design-logic` reference 10 (AUDIT-EXISTING lane): report-only audit of an existing frontend for legacy
+  patterns (grep-style checklist against 09, optional `modern-web.sh scan`, findings by impact with file:line,
+  effort, risk, 3 ordered recommendations, no edits until the user picks). skill-router now routes phrases like
+  "cải thiện frontend", "frontend cũ", "làm CSS hiện đại hơn", "review my project and improve the frontend" to
+  `ui-design-logic` (with and without diacritics), with anti-hijack self-tests for diff/PR/backend/crash.
 - `reframe` skill: replace easy/hard labels with a smallest experiment, list at least 3 approaches
   (one flipping a constraint), give up only with the blocker report format. Never overrides safety refusals.
 - `hooks/giveup-guard.sh` (Stop hook): blocks once on an evidence-free feasibility give-up, fail-open,

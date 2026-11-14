@@ -32,6 +32,7 @@ jobs:
           for s in hooks/foreman-nudge.sh hooks/git-guard.sh \
                    skills/ba-flow-logic/ba-verify.sh \
                    skills/ui-design-logic/design-verify.sh \
+                   skills/ui-design-logic/modern-web.sh \
                    skills/security-logic/security-verify.sh \
                    skills/ui-ux-triage/triage-verify.sh; do
             echo "== $s"
